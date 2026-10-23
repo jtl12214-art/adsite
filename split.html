@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="사진을 원하는 개수로 나누어 각각 저장할 수 있는 브라우저 기반 분할 도구입니다.">
+    <title>사진 분할하기 | PIX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="split/assets/css/reset.css">
+    <link rel="stylesheet" href="split/assets/css/normalize.css">
+    <link rel="stylesheet" href="split/assets/css/commons.css">
+    <link rel="stylesheet" href="split/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/pix-header.css">
+    <link rel="stylesheet" href="assets/css/pix-info.css">
+    <script defer src="split/assets/vendor/jszip.min.js"></script>
+    <script defer src="split/assets/js/main.js"></script>
+    <script defer src="assets/js/header.js"></script>
+</head>
+<body>
+    <div data-component="header"></div>
+
+    <main class="container page-main">
+        <section class="intro" aria-labelledby="page-title">
+            <h1 id="page-title">사진 분할하기</h1>
+            <p class="intro-lead">사진 한 장을 원하는 개수로 나눠보세요.</p>
+            <p class="intro-description">원본 이미지를 자르거나 축소하지 않고 일정한 영역으로 나누어 각각의 이미지로 저장할 수 있습니다.</p>
+        </section>
+
+        <section class="editor" aria-label="사진 분할기">
+            <div class="editor-layout">
+                <aside class="settings-column" aria-label="분할 설정">
+                    <section class="setting-section upload-section" aria-labelledby="upload-title">
+                        <div class="section-heading">
+                            <span class="step-number">01</span>
+                            <div class="section-title-group">
+                                <h2 id="upload-title">이미지 업로드</h2>
+                            </div>
+                        </div>
+                        <div class="upload-box" id="upload-box" tabindex="0" role="button" aria-label="이미지 업로드 영역">
+                            <input class="visually-hidden" type="file" id="image-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
+                            <span class="upload-icon" aria-hidden="true"><span></span></span>
+                            <p class="upload-title">이미지를 선택해주세요</p>
+                            <p class="upload-formats">JPG, PNG, WEBP 지원</p>
+                            <button class="button button-secondary upload-button" type="button" id="select-image-button">파일 선택</button>
+                            <p class="file-name" id="file-name" aria-live="polite">선택된 파일 없음</p>
+                        </div>
+                        <p class="field-error" id="upload-error" role="alert"></p>
+                    </section>
+
+                    <section class="setting-section split-section" aria-labelledby="split-title">
+                        <div class="section-heading">
+                            <span class="step-number">02</span>
+                            <div class="section-title-group">
+                                <h2 id="split-title">분할 개수</h2>
+                            </div>
+                        </div>
+                        <div class="split-options" role="group" aria-label="분할 프리셋">
+                            <button class="split-option" type="button" data-cols="2" data-rows="1" aria-pressed="false">
+                                <span class="split-label">2분할</span>
+                                <span class="split-sub">2 × 1</span>
+                            </button>
+                            <button class="split-option is-active" type="button" data-cols="2" data-rows="2" aria-pressed="true">
+                                <span class="split-label">4분할</span>
+                                <span class="split-sub">2 × 2</span>
+                            </button>
+                            <button class="split-option" type="button" data-cols="4" data-rows="2" aria-pressed="false">
+                                <span class="split-label">8분할</span>
+                                <span class="split-sub">4 × 2</span>
+                            </button>
+                            <button class="split-option" type="button" data-cols="4" data-rows="4" aria-pressed="false">
+                                <span class="split-label">16분할</span>
+                                <span class="split-sub">4 × 4</span>
+                            </button>
+                        </div>
+                    </section>
+                    <section class="setting-section format-section" aria-labelledby="format-title">
+                        <div class="section-heading">
+                            <span class="step-number">03</span>
+                            <div class="section-title-group">
+                                <h2 id="format-title">저장 형식</h2>
+                            </div>
+                        </div>
+                        <div class="format-options" role="group" aria-label="저장 형식">
+                            <button class="format-option is-active" type="button" data-format="image/png" aria-pressed="true">PNG</button>
+                            <button class="format-option" type="button" data-format="image/jpeg" aria-pressed="false">JPEG</button>
+                        </div>
+                        <p class="jpeg-notice" id="jpeg-notice" hidden>JPEG 저장 시 이미지 품질이 일부 저하될 수 있습니다. 권장 형식은 PNG입니다.</p>
+                    </section>
+
+                    <section class="save-section" aria-labelledby="save-title">
+                        <div class="section-heading">
+                            <span class="step-number">04</span>
+                            <div class="section-title-group">
+                                <h2 id="save-title">분할 결과</h2>
+                            </div>
+                        </div>
+                        <div class="save-summary">
+                            <span id="slice-total">4장</span>
+                            <span class="save-summary-label">분할 예정</span>
+                        </div>
+                        <button class="button button-primary save-button" type="button" id="download-button" disabled>전체 저장</button>
+                    </section>
+                </aside>
+
+                <section class="preview-section" aria-labelledby="preview-title">
+                    <div class="preview-heading">
+                        <h2 id="preview-title">결과 미리보기</h2>
+                        <span class="preview-ratio" id="preview-ratio">2 × 2</span>
+                    </div>
+                    <div class="preview-workspace">
+                        <div class="preview-canvas" id="preview-canvas" aria-live="polite">
+                            <div class="preview-empty" id="preview-empty">이미지를 선택하면<br>분할 미리보기가 표시됩니다.</div>
+                            <canvas id="preview-surface" width="800" height="800"></canvas>
+                        </div>
+                    </div>
+                    <p class="preview-caption" id="preview-caption">선택된 이미지가 없습니다.</p>
+
+                    <div class="result-panel" aria-live="polite">
+                        <div class="result-header">
+                            <h3>분할 결과</h3>
+                        </div>
+                        <div id="result-grid" class="result-grid"></div>
+                    </div>
+                </section>
+            </div>
+        </section>
+        <section class="pix-info-section pix-guide-section" aria-labelledby="pix-guide-title">
+            <div class="pix-info-heading"><h2 id="pix-guide-title">사용 방법</h2></div>
+            <ol class="pix-guide-grid">
+                <li class="pix-guide-card"><span class="pix-guide-number">01</span><h3>사진 업로드</h3><p>분할할 사진 한 장을 불러옵니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">02</span><h3>분할 개수 선택</h3><p>2분할, 4분할, 8분할 또는 16분할 중 원하는 방식을 선택합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">03</span><h3>결과 확인</h3><p>분할선과 각 결과 이미지의 썸네일을 확인합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">04</span><h3>저장</h3><p>각 이미지를 따로 저장하거나 전체 결과를 ZIP 파일로 저장합니다.</p></li>
+            </ol>
+        </section>
+        <section class="pix-info-section pix-faq-section" aria-labelledby="pix-faq-title">
+            <div class="pix-info-heading"><h2 id="pix-faq-title">자주 묻는 질문</h2></div>
+            <div class="pix-faq-list">
+                <details class="pix-faq-item"><summary>사진을 분할하면 원본 픽셀이 사라지나요?</summary><p>분할 경계를 원본 이미지 픽셀 기준으로 계산해 조각 사이의 누락이나 겹침이 발생하지 않도록 처리합니다.</p></details>
+                <details class="pix-faq-item"><summary>몇 개까지 나눌 수 있나요?</summary><p>현재 2개, 4개, 8개, 16개 분할을 지원합니다.</p></details>
+                <details class="pix-faq-item"><summary>결과를 한 번에 저장할 수 있나요?</summary><p>네. 전체 저장을 사용하면 모든 분할 이미지를 하나의 ZIP 파일로 받을 수 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>JPEG로도 저장할 수 있나요?</summary><p>네. PNG와 JPEG 형식을 지원하며 JPEG 저장 시 일부 품질 저하가 발생할 수 있습니다.</p></details>
+            </div>
+        </section>
+    </main>
+    <div data-component="footer"></div>
+</body>
+</html>

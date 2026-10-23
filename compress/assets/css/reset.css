@@ -1,0 +1,7 @@
+/* PixCompress 기본 스타일 초기화 */
+*, *::before, *::after { box-sizing: border-box; }
+html, body, div, span, h1, h2, h3, p, small, strong, ul, li, dl, dt, dd, figure, figcaption, form, fieldset, legend { margin: 0; padding: 0; }
+ul { list-style: none; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+img { display: block; max-width: 100%; }

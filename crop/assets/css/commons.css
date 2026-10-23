@@ -1,0 +1,78 @@
+:root {
+    font-family: "DM Sans", "Noto Sans KR", sans-serif;
+    color: #2D2A26;
+    background: #FFFAF6;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    min-height: 100vh;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+.container {
+    width: min(1120px, calc(100% - 48px));
+    margin-inline: auto;
+}
+
+.button {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.button:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(197, 82, 0, 0.25);
+    outline-offset: 3px;
+}
+
+.button-secondary {
+    border: 1px solid #E9E4DF;
+    background: #FFFFFF;
+    color: #2D2A26;
+}
+
+.button-secondary:hover:not(:disabled) {
+    border-color: #C55200;
+    background: #FFF1E6;
+}
+
+.button-primary {
+    background: #C55200;
+    color: #FFFFFF;
+}
+
+.button-primary:hover:not(:disabled) {
+    background: #A84300;
+}
+
+.button-primary:disabled {
+    background: #E9E4DF;
+    color: #77716C;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

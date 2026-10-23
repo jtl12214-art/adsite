@@ -1,0 +1,7 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { min-width: 320px; scroll-behavior: smooth; }
+body, h1, h2, h3, p, ol, ul { margin: 0; }
+button, input { font: inherit; }
+button { color: inherit; }
+img, svg { display: block; max-width: 100%; }
+button:disabled { cursor: not-allowed; }

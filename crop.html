@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="사진의 필요한 영역을 자르고 90도 단위로 회전해 저장하세요.">
+    <title>사진 자르기·회전 | PIX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fit/assets/css/reset.css">
+    <link rel="stylesheet" href="fit/assets/css/normalize.css">
+    <link rel="stylesheet" href="fit/assets/css/commons.css">
+    <link rel="stylesheet" href="fit/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/pix-header.css">
+    <link rel="stylesheet" href="assets/css/pix-info.css">
+    <script defer src="fit/assets/js/main.js"></script>
+    <script defer src="assets/js/header.js"></script>
+</head>
+<body>
+    <div data-component="header"></div>
+
+    <main class="container page-main">
+        <section class="intro" aria-labelledby="page-title">
+            <h1 id="page-title">사진 자르기·회전</h1>
+            <p class="intro-lead">필요한 영역만 남기고 사진의 방향을 간편하게 조정해보세요.</p>
+            <p class="intro-description">자르기 영역과 비율을 설정하고 사진을 90도 단위로 회전한 뒤 원하는 형식으로 저장할 수 있습니다.</p>
+        </section>
+
+        <section class="editor" aria-label="사진 자르기·회전 편집기">
+            <div class="editor-layout">
+                <aside class="settings-column" aria-label="자르기 설정">
+                    <section class="setting-section upload-section" aria-labelledby="upload-title">
+                        <div class="section-heading"><span class="step-number">01</span><h2 id="upload-title">이미지 업로드</h2></div>
+                        <div class="upload-box" id="upload-box" tabindex="0" role="button" aria-label="이미지 업로드 영역">
+                            <input class="visually-hidden" type="file" id="image-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" aria-label="자르기 이미지 선택">
+                            <span class="upload-icon" aria-hidden="true"><span></span></span>
+                            <p class="upload-title">이미지를 선택하거나 여기에 놓아주세요</p>
+                            <p class="upload-formats">JPG, PNG, WEBP · 최대 20MB</p>
+                            <button class="button button-secondary upload-button" type="button" id="select-image-button">파일 선택</button>
+                            <p class="file-name" id="file-name" aria-live="polite">선택된 파일 없음</p>
+                        </div>
+                        <p class="field-error" id="upload-error" role="alert" aria-live="polite"></p>
+                    </section>
+
+                    <section class="setting-section ratio-section" aria-labelledby="ratio-title">
+                        <div class="section-heading"><span class="step-number">02</span><h2 id="ratio-title">자르기 비율</h2></div>
+                        <div class="ratio-options" id="ratio-options" role="group" aria-label="자르기 비율"></div>
+                    </section>
+
+                    <section class="setting-section rotate-section" aria-labelledby="rotate-title">
+                        <div class="section-heading"><span class="step-number">03</span><h2 id="rotate-title">회전</h2></div>
+                        <div class="rotate-controls">
+                            <button class="button button-secondary" type="button" id="rotate-left" aria-label="왼쪽 90도 회전">왼쪽 90°</button>
+                            <button class="button button-secondary" type="button" id="rotate-right" aria-label="오른쪽 90도 회전">오른쪽 90°</button>
+                            <button class="button button-secondary reset-button" type="button" id="reset-button">초기화</button>
+                        </div>
+                        <p class="rotation-value" id="rotation-value" aria-live="polite">회전: 0°</p>
+                    </section>
+
+                    <section class="setting-section crop-info-section" aria-labelledby="crop-info-title">
+                        <div class="section-heading"><span class="step-number">04</span><h2 id="crop-info-title">자르기 정보</h2></div>
+                        <p class="crop-dimensions" id="crop-dimensions" aria-live="polite">— × — px</p>
+                    </section>
+
+                    <section class="setting-section format-section" aria-labelledby="format-title">
+                        <div class="section-heading"><span class="step-number">05</span><h2 id="format-title">저장 형식</h2></div>
+                        <div class="format-options" id="format-options" role="group" aria-label="저장 형식">
+                            <button class="format-button is-active" type="button" data-format="image/png" aria-pressed="true">PNG</button>
+                            <button class="format-button" type="button" data-format="image/jpeg" aria-pressed="false">JPEG</button>
+                        </div>
+                        <p class="format-notice" id="jpeg-notice" hidden>JPEG 저장 시 이미지 품질이 일부 저하될 수 있습니다. 권장 형식은 PNG입니다.</p>
+                    </section>
+
+                    <section class="setting-section save-section" aria-labelledby="save-title">
+                        <div class="section-heading"><span class="step-number">06</span><h2 id="save-title">결과 저장</h2></div>
+                        <button class="button button-primary save-button" type="button" id="save-button" disabled>사진 저장</button>
+                    </section>
+                </aside>
+
+                <section class="preview-section" aria-labelledby="preview-title">
+                    <div class="preview-heading">
+                        <h2 id="preview-title">사진 편집</h2>
+                        <p id="preview-caption" aria-live="polite">이미지를 업로드하면 자르기 영역을 조정할 수 있습니다.</p>
+                    </div>
+                    <div class="preview-stage" id="preview-stage">
+                        <canvas id="crop-canvas" tabindex="-1" aria-label="사진 자르기 미리보기"></canvas>
+                        <p class="empty-preview" id="empty-preview">이미지를 업로드하면 자르기 영역을 조정할 수 있습니다.</p>
+                    </div>
+                    <p class="preview-hint">자르기 영역 내부를 끌어 이동하고 가장자리나 모서리를 끌어 크기를 조정하세요.</p>
+                </section>
+            </div>
+        </section>
+        <section class="pix-info-section pix-guide-section" aria-labelledby="pix-guide-title">
+            <div class="pix-info-heading"><h2 id="pix-guide-title">사용 방법</h2></div>
+            <ol class="pix-guide-grid">
+                <li class="pix-guide-card"><span class="pix-guide-number">01</span><h3>사진 업로드</h3><p>자르거나 방향을 조정할 사진을 불러옵니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">02</span><h3>자르기 비율 선택</h3><p>자유 비율 또는 1:1, 4:5, 3:4, 9:16, 16:9 등의 비율을 선택합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">03</span><h3>영역·방향 조정</h3><p>자르기 영역을 이동하거나 크기를 조정하고 필요하면 사진을 90도 단위로 회전합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">04</span><h3>저장</h3><p>선택된 실제 픽셀 영역을 PNG 또는 JPEG로 저장합니다.</p></li>
+            </ol>
+        </section>
+        <section class="pix-info-section pix-faq-section" aria-labelledby="pix-faq-title">
+            <div class="pix-info-heading"><h2 id="pix-faq-title">자주 묻는 질문</h2></div>
+            <div class="pix-faq-list">
+                <details class="pix-faq-item"><summary>자르기 비율을 직접 조절할 수 있나요?</summary><p>네. 자유 모드에서는 자르기 영역의 각 방향과 모서리를 직접 조절할 수 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>사진을 몇 도까지 회전할 수 있나요?</summary><p>왼쪽 또는 오른쪽으로 90도 단위 회전을 지원합니다.</p></details>
+                <details class="pix-faq-item"><summary>저장하면 이미지가 자동으로 확대되나요?</summary><p>아니요. 선택한 실제 원본 픽셀 영역을 기준으로 저장하며 작은 이미지를 강제로 확대하지 않습니다.</p></details>
+                <details class="pix-faq-item"><summary>투명 PNG도 사용할 수 있나요?</summary><p>네. PNG 저장에서는 투명도를 유지하며 JPEG 저장에서는 투명 영역이 흰색으로 처리됩니다.</p></details>
+            </div>
+        </section>
+    </main>
+    <div data-component="footer"></div>
+</body>
+</html>

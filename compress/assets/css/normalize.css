@@ -1,0 +1,10 @@
+/* 주요 브라우저 간 기본 표시 차이를 줄입니다. */
+html { line-height: 1.5; -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+main { display: block; }
+button, input { font-family: inherit; }
+button { -webkit-appearance: button; appearance: button; }
+button:disabled { cursor: not-allowed; }
+[type="file"] { cursor: pointer; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid #C55200; outline-offset: 3px; }

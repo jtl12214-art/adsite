@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="사진에 텍스트나 로고 워터마크를 추가하고 저장하세요.">
+    <title>워터마크 넣기 | PIX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="watermark/assets/css/reset.css">
+    <link rel="stylesheet" href="watermark/assets/css/normalize.css">
+    <link rel="stylesheet" href="watermark/assets/css/commons.css">
+    <link rel="stylesheet" href="watermark/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/pix-header.css">
+    <link rel="stylesheet" href="assets/css/pix-info.css">
+
+    <script defer src="assets/js/main.js"></script>
+    <script defer src="assets/js/header.js"></script>
+</head>
+<body>
+    <div data-component="header"></div>
+
+    <main class="container page-main">
+        <section class="intro" aria-labelledby="page-title">
+            <h1 id="page-title">워터마크 넣기</h1>
+            <p class="intro-lead">사진에 텍스트나 로고 워터마크를 간편하게 추가해보세요.</p>
+            <p class="intro-description">위치와 크기, 투명도와 회전을 조정하고 원본 해상도로 저장할 수 있습니다.</p>
+        </section>
+
+        <section class="editor" aria-label="워터마크 편집기">
+            <div class="editor-layout">
+                <aside class="settings-column" aria-label="워터마크 설정">
+                    <section class="setting-section" aria-labelledby="source-title">
+                        <div class="section-heading"><span class="step-number">01</span><h2 id="source-title">이미지 업로드</h2></div>
+                        <div class="upload-box" id="source-upload-box">
+                            <input class="visually-hidden" type="file" id="source-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" aria-label="편집할 이미지 선택">
+                            <p class="upload-title">사진을 선택하거나 여기에 놓아주세요</p>
+                            <p class="upload-formats">JPG, PNG, WEBP · 최대 20MB</p>
+                            <label class="button button-secondary upload-button" for="source-input">파일 선택</label>
+                            <p class="file-name" id="source-file-name" aria-live="polite">선택된 파일 없음</p>
+                        </div>
+                        <p class="field-error" id="source-error" role="alert" aria-live="polite"></p>
+                    </section>
+
+                    <section class="setting-section" aria-labelledby="kind-title">
+                        <div class="section-heading"><span class="step-number">02</span><h2 id="kind-title">워터마크 종류</h2></div>
+                        <div class="segmented-options" role="group" aria-label="워터마크 종류">
+                            <button class="segmented-button is-active" type="button" data-kind="text" aria-pressed="true">텍스트</button>
+                            <button class="segmented-button" type="button" data-kind="image" aria-pressed="false">이미지</button>
+                        </div>
+                    </section>
+
+                    <section class="setting-section" aria-labelledby="watermark-title">
+                        <div class="section-heading"><span class="step-number">03</span><h2 id="watermark-title">워터마크 설정</h2></div>
+                        <div id="text-settings">
+                            <label class="control-label" for="watermark-text">워터마크 문구</label>
+                            <input class="text-input" id="watermark-text" type="text" value="PIX" maxlength="50" autocomplete="off">
+                            <div class="text-style-row">
+                                <fieldset class="color-field">
+                                    <legend class="control-label">텍스트 색상</legend>
+                                    <div class="color-options">
+                                        <button class="color-swatch is-active" type="button" data-color="#ffffff" aria-label="흰색" aria-pressed="true"><span class="swatch-white"></span></button>
+                                        <button class="color-swatch" type="button" data-color="#000000" aria-label="검정" aria-pressed="false"><span class="swatch-black"></span></button>
+                                        <label class="custom-color" for="text-color">사용자 지정<input id="text-color" type="color" value="#ffffff" aria-label="사용자 지정 텍스트 색상"></label>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="weight-field">
+                                    <legend class="control-label">글자 굵기</legend>
+                                    <div class="weight-options">
+                                        <button class="weight-button" type="button" data-weight="normal" aria-pressed="false">보통</button>
+                                        <button class="weight-button is-active" type="button" data-weight="bold" aria-pressed="true">굵게</button>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div id="image-settings" hidden>
+                            <div class="upload-box watermark-upload-box" id="watermark-upload-box">
+                                <input class="visually-hidden" type="file" id="watermark-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" aria-label="워터마크 이미지 선택">
+                                <p class="upload-title">로고 이미지를 선택하거나 여기에 놓아주세요</p>
+                                <p class="upload-formats">투명 PNG 지원 · 최대 20MB</p>
+                                <label class="button button-secondary upload-button" for="watermark-input">이미지 선택</label>
+                                <p class="file-name" id="watermark-file-name" aria-live="polite">워터마크 이미지 없음</p>
+                            </div>
+                            <p class="field-error" id="watermark-error" role="alert" aria-live="polite"></p>
+                            <button class="text-button" id="delete-watermark" type="button" aria-label="업로드한 워터마크 이미지 삭제" disabled>이미지 삭제</button>
+                        </div>
+                    </section>
+
+                    <section class="setting-section" aria-labelledby="position-title">
+                        <div class="section-heading"><span class="step-number">04</span><h2 id="position-title">위치</h2></div>
+                        <div class="position-grid" role="group" aria-label="워터마크 위치">
+                            <button class="position-button" type="button" data-position="top-left" aria-label="왼쪽 위" aria-pressed="false"><span></span></button>
+                            <button class="position-button" type="button" data-position="top-center" aria-label="가운데 위" aria-pressed="false"><span></span></button>
+                            <button class="position-button" type="button" data-position="top-right" aria-label="오른쪽 위" aria-pressed="false"><span></span></button>
+                            <button class="position-button" type="button" data-position="middle-left" aria-label="왼쪽 가운데" aria-pressed="false"><span></span></button>
+                            <button class="position-button" type="button" data-position="center" aria-label="정가운데" aria-pressed="false"><span></span></button>
+                            <button class="position-button" type="button" data-position="middle-right" aria-label="오른쪽 가운데" aria-pressed="false"><span></span></button>
+                            <button class="position-button" type="button" data-position="bottom-left" aria-label="왼쪽 아래" aria-pressed="false"><span></span></button>
+                            <button class="position-button" type="button" data-position="bottom-center" aria-label="가운데 아래" aria-pressed="false"><span></span></button>
+                            <button class="position-button is-active" type="button" data-position="bottom-right" aria-label="오른쪽 아래" aria-pressed="true"><span></span></button>
+                        </div>
+                    </section>
+
+                    <section class="setting-section" aria-labelledby="size-title">
+                        <div class="section-heading"><span class="step-number">05</span><h2 id="size-title">크기·투명도</h2></div>
+                        <div class="slider-control">
+                            <div class="slider-heading"><label for="size-slider">크기</label><output id="size-value" for="size-slider">40</output></div>
+                            <input id="size-slider" type="range" min="10" max="100" step="1" value="40">
+                        </div>
+                        <div class="slider-control">
+                            <div class="slider-heading"><label for="opacity-slider">투명도</label><output id="opacity-value" for="opacity-slider">70%</output></div>
+                            <input id="opacity-slider" type="range" min="10" max="100" step="1" value="70">
+                        </div>
+                        <div class="slider-control">
+                            <div class="slider-heading"><label for="margin-slider">가장자리 여백</label><output id="margin-value" for="margin-slider">24 px</output></div>
+                            <input id="margin-slider" type="range" min="0" max="100" step="1" value="24">
+                        </div>
+                    </section>
+
+                    <section class="setting-section" aria-labelledby="rotation-title">
+                        <div class="section-heading"><span class="step-number">06</span><h2 id="rotation-title">회전</h2></div>
+                        <div class="slider-heading"><label for="rotation-slider">워터마크 회전</label><output id="rotation-value" for="rotation-slider">0°</output></div>
+                        <input id="rotation-slider" type="range" min="-90" max="90" step="1" value="0">
+                    </section>
+
+                    <section class="setting-section" aria-labelledby="format-title">
+                        <div class="section-heading"><span class="step-number">07</span><h2 id="format-title">저장 형식</h2></div>
+                        <div class="segmented-options" role="group" aria-label="저장 형식">
+                            <button class="format-button segmented-button is-active" type="button" data-format="image/png" aria-pressed="true">PNG</button>
+                            <button class="format-button segmented-button" type="button" data-format="image/jpeg" aria-pressed="false">JPEG</button>
+                        </div>
+                        <p class="format-notice" id="jpeg-notice" hidden>JPEG 저장 시 이미지 품질이 일부 저하될 수 있습니다. 권장 형식은 PNG입니다.</p>
+                    </section>
+
+                    <section class="setting-section save-section" aria-labelledby="save-title">
+                        <div class="section-heading"><span class="step-number">08</span><h2 id="save-title">결과 저장</h2></div>
+                        <button class="button button-primary save-button" id="save-button" type="button" disabled>사진 저장</button>
+                        <button class="button button-secondary reset-button" id="reset-watermark" type="button">워터마크 초기화</button>
+                        <p class="field-error" id="export-error" role="alert" aria-live="polite"></p>
+                    </section>
+                </aside>
+
+                <section class="preview-section" aria-label="워터마크 편집 미리보기">
+                    <div class="preview-heading">
+                        <h2>미리보기</h2>
+                        <p id="preview-caption">이미지를 업로드하면 워터마크를 미리볼 수 있습니다.</p>
+                    </div>
+                    <div class="preview-stage" id="preview-stage">
+                        <canvas id="preview-canvas" aria-label="워터마크 미리보기"></canvas>
+                        <p class="empty-preview" id="empty-preview">이미지를 업로드하면 워터마크를 미리볼 수 있습니다.</p>
+                    </div>
+                    <p class="preview-hint">워터마크를 끌어 원하는 위치로 옮길 수 있습니다.</p>
+                </section>
+            </div>
+        </section>
+        <section class="pix-info-section pix-guide-section" aria-labelledby="pix-guide-title">
+            <div class="pix-info-heading"><h2 id="pix-guide-title">사용 방법</h2></div>
+            <ol class="pix-guide-grid">
+                <li class="pix-guide-card"><span class="pix-guide-number">01</span><h3>사진 업로드</h3><p>워터마크를 추가할 원본 사진을 불러옵니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">02</span><h3>워터마크 선택</h3><p>텍스트 또는 이미지 로고 방식 중 원하는 종류를 선택합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">03</span><h3>위치와 디자인 조정</h3><p>위치, 크기, 투명도, 회전 등을 조절해 원하는 모습으로 배치합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">04</span><h3>저장</h3><p>미리보기를 확인한 뒤 원본 해상도를 유지해 저장합니다.</p></li>
+            </ol>
+        </section>
+        <section class="pix-info-section pix-faq-section" aria-labelledby="pix-faq-title">
+            <div class="pix-info-heading"><h2 id="pix-faq-title">자주 묻는 질문</h2></div>
+            <div class="pix-faq-list">
+                <details class="pix-faq-item"><summary>텍스트와 이미지 워터마크를 모두 사용할 수 있나요?</summary><p>현재 한 번에 텍스트 또는 이미지 워터마크 하나를 선택해 사용할 수 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>투명한 PNG 로고도 사용할 수 있나요?</summary><p>네. 투명 PNG의 원래 투명도를 유지하면서 추가 불투명도도 조절할 수 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>워터마크를 직접 이동할 수 있나요?</summary><p>네. 9개의 위치 프리셋을 사용할 수도 있고 미리보기에서 직접 드래그해 배치할 수도 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>저장하면 사진 해상도가 줄어드나요?</summary><p>워터마크 결과는 원본 이미지 해상도를 기준으로 저장됩니다.</p></details>
+            </div>
+        </section>
+    </main>
+    <div data-component="footer"></div>
+</body>
+</html>

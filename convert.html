@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="JPG, PNG, WEBP 이미지를 원하는 형식으로 무료 변환하세요. 최대 3장까지 프로그램 설치 없이 브라우저에서 간편하게 변환할 수 있습니다."
+    />
+    <title>파일 변환 | PIX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="convert/assets/css/reset.css" />
+    <link rel="stylesheet" href="convert/assets/css/normalize.css" />
+    <link rel="stylesheet" href="convert/assets/css/commons.css" />
+    <link rel="stylesheet" href="convert/assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/pix-header.css" />
+    <link rel="stylesheet" href="assets/css/pix-info.css" />
+    <script src="convert/assets/vendor/jszip.min.js"></script>
+    <script type="module" src="convert/assets/js/main.js"></script>
+    <script defer src="assets/js/header.js"></script>
+  </head>
+  <body>
+    <div data-component="header"></div>
+
+    <main>
+      <section class="hero section-spacing">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1>파일 변환</h1>
+            <span class="eyebrow">Photo Format Converter</span>
+            <p>
+              JPG, PNG, WEBP 이미지를 원하는 파일 형식으로 간편하게 변환하세요.
+            </p>
+          </div>
+          <div class="hero-panel card">
+            <div class="hero-preview">
+              <div class="mini-card mini-jpg">
+                <span>JPG</span>
+              </div>
+              <div class="swap-line" aria-hidden="true">
+                <span></span>
+              </div>
+              <div class="mini-card mini-png">
+                <span>PNG</span>
+              </div>
+              <div class="swap-line second" aria-hidden="true">
+                <span></span>
+              </div>
+              <div class="mini-card mini-webp">
+                <span>WEBP</span>
+              </div>
+            </div>
+            <ul class="hero-metrics" aria-label="파일 변환 핵심 기능">
+              <li>최대 3장</li>
+              <li>파일당 20MB</li>
+              <li>브라우저 변환</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-section section-spacing" id="tool">
+        <div class="container tool-grid">
+          <div class="card upload-card">
+            <div class="section-header">
+              <h2>이미지 업로드</h2>
+              <span class="section-subtitle">Upload Image</span>
+            </div>
+
+            <div id="uploadArea" class="upload-area" tabindex="0" role="button" aria-label="이미지 업로드 영역">
+              <input id="fileInput" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple hidden />
+              <div class="upload-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 16V5m0 0l-3 3m3-3l3 3M5 17.5v.5A2 2 0 0 0 7 20h10a2 2 0 0 0 2-2v-1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <p class="upload-message">이미지를 여기에 끌어놓으세요</p>
+              <p class="upload-submessage">또는 파일을 직접 선택하세요</p>
+              <button class="secondary-button upload-trigger" type="button">이미지 선택</button>
+              <p class="upload-help">JPG, PNG, WEBP · 최대 3장 · 파일당 20MB</p>
+            </div>
+            <div id="uploadStatus" class="status-banner" role="status" aria-live="polite"></div>
+          </div>
+
+          <div class="card format-card">
+            <div class="section-header">
+              <h2>변환 형식 선택</h2>
+              <span class="section-subtitle">Output Format</span>
+            </div>
+
+            <div class="format-options" id="formatOptions" aria-label="변환 형식 선택">
+              <button type="button" class="format-button" data-format="jpg" aria-pressed="false">
+                <span>JPG</span>
+              </button>
+              <button type="button" class="format-button" data-format="png" aria-pressed="false">
+                <span>PNG</span>
+              </button>
+              <button type="button" class="format-button" data-format="webp" aria-pressed="false">
+                <span>WEBP</span>
+              </button>
+            </div>
+
+            <div id="jpgBackgroundPanel" class="background-panel hidden">
+              <span class="background-label">JPG 배경색</span>
+              <div class="background-picker-row" role="group" aria-label="JPG 배경색 선택">
+                <button type="button" class="background-button selected" data-color="#ffffff" aria-pressed="true">흰색</button>
+                <button type="button" class="background-button" data-color="#000000" aria-pressed="false">검정색</button>
+              </div>
+            </div>
+
+            <div class="convert-action-wrap">
+              <button id="convertButton" class="primary-button" type="button" disabled>
+                이미지 변환하기
+              </button>
+            </div>
+            <div id="convertStatus" class="status-banner" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="file-section section-spacing">
+        <div class="container">
+          <div class="card file-card hidden" id="fileListSection">
+            <div class="section-header">
+              <h2>업로드한 이미지</h2>
+              <span class="section-subtitle">Uploaded Images</span>
+            </div>
+            <div id="fileList" class="file-list" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="results-section section-spacing hidden" id="resultsSection">
+        <div class="container">
+          <div class="results-header">
+            <div class="section-header">
+              <h2>변환 결과</h2>
+              <span class="section-subtitle">Conversion Result</span>
+            </div>
+            <div id="zipActions" class="zip-actions"></div>
+          </div>
+          <div id="resultList" class="result-list"></div>
+        </div>
+      </section>
+
+      <section class="pix-info-section pix-guide-section" aria-labelledby="pix-guide-title">
+        <div class="pix-info-heading"><h2 id="pix-guide-title">사용 방법</h2></div>
+        <ol class="pix-guide-grid">
+          <li class="pix-guide-card"><span class="pix-guide-number">01</span><h3>사진 추가</h3><p>변환할 JPG, PNG 또는 WEBP 이미지를 최대 3장까지 추가합니다.</p></li>
+          <li class="pix-guide-card"><span class="pix-guide-number">02</span><h3>결과 형식 선택</h3><p>JPG, PNG 또는 WEBP 중 원하는 출력 형식을 선택합니다.</p></li>
+          <li class="pix-guide-card"><span class="pix-guide-number">03</span><h3>결과 확인</h3><p>선택한 형식에 맞게 변환된 결과를 확인합니다.</p></li>
+          <li class="pix-guide-card"><span class="pix-guide-number">04</span><h3>저장</h3><p>개별 파일을 저장하거나 여러 결과를 ZIP으로 저장합니다.</p></li>
+        </ol>
+      </section>
+
+      <section class="pix-info-section pix-faq-section" aria-labelledby="pix-faq-title">
+        <div class="pix-info-heading">
+          <h2 id="pix-faq-title">자주 묻는 질문</h2>
+        </div>
+        <div class="pix-faq-list">
+          <details class="pix-faq-item"><summary>어떤 이미지 형식을 변환할 수 있나요?</summary><p>JPG, PNG, WEBP 이미지를 불러와 지원되는 다른 이미지 형식으로 변환할 수 있습니다.</p></details>
+          <details class="pix-faq-item"><summary>여러 장을 한 번에 변환할 수 있나요?</summary><p>현재 최대 3장의 이미지를 한 번에 추가해 변환할 수 있습니다.</p></details>
+          <details class="pix-faq-item"><summary>투명 PNG를 JPG로 바꾸면 어떻게 되나요?</summary><p>JPG는 투명도를 지원하지 않기 때문에 설정된 배경색을 적용해 저장합니다.</p></details>
+          <details class="pix-faq-item"><summary>변환한 파일을 한 번에 받을 수 있나요?</summary><p>여러 결과가 있는 경우 ZIP 파일로 저장할 수 있습니다.</p></details>
+        </div>
+      </section>
+    </main>
+
+
+    <div data-component="footer"></div>
+  </body>
+</html>

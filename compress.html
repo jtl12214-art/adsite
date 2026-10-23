@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="JPG, PNG, WEBP 사진을 브라우저에서 안전하게 압축하는 무료 도구. 원하는 목표 용량을 설정하고 전후 결과를 비교하세요.">
+  <title>사진 용량 줄이기 | PIX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="compress/assets/css/reset.css">
+  <link rel="stylesheet" href="compress/assets/css/normalize.css">
+  <link rel="stylesheet" href="compress/assets/css/commons.css">
+  <link rel="stylesheet" href="compress/assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pix-header.css">
+  <link rel="stylesheet" href="assets/css/pix-info.css">
+  <script src="compress/assets/js/jquery.min.js" defer></script>
+  <script src="compress/assets/js/main.js" defer></script>
+    <script defer src="assets/js/header.js"></script>
+</head>
+<body>
+  <div data-component="header"></div>
+
+  <main class="container">
+    <section class="intro" aria-labelledby="main-title">
+      <p class="intro__eyebrow">FREE IMAGE COMPRESSION TOOL</p>
+      <h1 id="main-title">사진 용량 줄이기</h1>
+      <p class="intro__lead">사진 용량은 가볍게, 화질은 최대한 그대로.</p>
+      <p class="intro__english" lang="en">Reduce image size while preserving visual quality.</p>
+      <p class="intro__description">JPG, PNG, WEBP 이미지를 업로드하고 원하는 목표 용량에 맞춰 압축해보세요. 별도의 프로그램 설치 없이 브라우저에서 간편하게 이용할 수 있습니다.</p>
+    </section>
+
+    <div class="editor">
+      <div class="settings-column">
+        <section class="panel" aria-labelledby="upload-title">
+          <div class="section-title"><span class="section-number">01</span><div><h2 id="upload-title">이미지 업로드</h2><p lang="en">Upload Image</p></div></div>
+          <input class="screen-reader-only" id="imageInput" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" aria-describedby="uploadLimit">
+          <label for="imageInput" class="upload-area" id="uploadArea">
+            <span class="upload-area__icon" aria-hidden="true">↑</span>
+            <strong>클릭하거나 이미지를 드래그하세요</strong>
+            <span>JPG, PNG, WEBP · 이미지 1장</span>
+            <span class="upload-area__small">최대 25MB · 2,400만 픽셀 · 한 변 최대 10,000px</span>
+          </label>
+          <p class="panel__hint" id="uploadLimit">이미지는 서버로 전송되지 않습니다. 고해상도 이미지는 브라우저 성능에 따라 처리 시간이 달라질 수 있습니다.</p>
+          <div class="file-info" id="fileInfo" hidden>
+            <div class="file-info__title" id="fileName"></div>
+            <dl class="file-info__details"><div><dt>원본 크기</dt><dd id="fileSize">–</dd></div><div><dt>해상도</dt><dd id="fileResolution">–</dd></div></dl>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="target-title">
+          <div class="section-title"><span class="section-number">02</span><div><h2 id="target-title">목표 용량 선택</h2><p lang="en">Target File Size</p></div></div>
+          <div class="option-grid option-grid--targets" role="group" aria-label="목표 용량 프리셋">
+            <button class="option-button target-button" type="button" data-kb="100" aria-pressed="false">100KB 이하</button>
+            <button class="option-button target-button" type="button" data-kb="200" aria-pressed="false">200KB 이하</button>
+            <button class="option-button target-button is-active" type="button" data-kb="500" aria-pressed="true">500KB 이하</button>
+            <button class="option-button target-button" type="button" data-kb="1024" aria-pressed="false">1MB 이하</button>
+            <button class="option-button target-button option-button--wide" type="button" data-kb="custom" aria-pressed="false">직접 입력</button>
+          </div>
+          <div id="customTargetWrap" class="custom-target" hidden>
+            <label for="customTargetInput">목표 용량 (KB)</label>
+            <div class="custom-target__control"><input type="number" id="customTargetInput" min="10" max="25600" step="1" inputmode="numeric" placeholder="예: 350" value="500"><span>KB</span></div>
+            <p class="panel__hint">10~25,600KB 사이의 정수를 입력해주세요.</p>
+          </div>
+          <p class="target-summary" id="targetSummary">목표 용량: <strong>500KB 이하</strong></p>
+          <p class="panel__hint">1KB = 1,024바이트 · 1MB = 1,024KB</p>
+        </section>
+
+        <section class="panel" aria-labelledby="format-title">
+          <div class="section-title"><span class="section-number">03</span><div><h2 id="format-title">저장 형식 선택</h2><p lang="en">Output Format</p></div></div>
+          <div class="option-grid option-grid--formats" role="group" aria-label="저장 파일 형식">
+            <button class="option-button format-button is-active" type="button" data-format="image/jpeg" aria-pressed="true">JPEG</button>
+            <button class="option-button format-button" type="button" data-format="image/webp" aria-pressed="false">WEBP</button>
+            <button class="option-button format-button" type="button" data-format="image/png" aria-pressed="false">PNG</button>
+          </div>
+          <p id="formatNotice" class="format-notice">JPEG는 사진 압축에 적합합니다. 투명 영역은 흰색으로 저장됩니다.</p>
+          <p id="conversionNotice" class="conversion-notice" hidden></p>
+        </section>
+
+        <section class="panel panel--action" aria-labelledby="compress-title">
+          <div class="section-title"><span class="section-number">04</span><div><h2 id="compress-title">이미지 압축</h2><p lang="en">Compress Image</p></div></div>
+          <button class="button button--primary button--full" id="compressButton" type="button" disabled>이미지 압축하기 <span aria-hidden="true">→</span></button>
+          <p id="statusMessage" class="status-message" role="status" aria-live="polite">이미지를 업로드하면 압축할 수 있습니다.</p>
+        </section>
+      </div>
+
+      <div class="results-column">
+        <section class="panel" aria-labelledby="preview-title">
+          <div class="section-title"><span class="section-number section-number--muted" aria-hidden="true">✦</span><div><h2 id="preview-title">결과 미리보기</h2><p lang="en">Result Preview</p></div></div>
+          <div class="preview-grid">
+            <figure class="preview-card">
+              <figcaption><strong>원본 이미지</strong><span>Original</span></figcaption>
+              <div class="preview-frame" id="originalFrame"><div class="preview-placeholder" id="originalPlaceholder"><span aria-hidden="true">▧</span><p>이미지를 업로드해주세요</p></div><img id="originalPreview" alt="업로드한 원본 이미지 미리보기" hidden></div>
+              <div class="preview-meta" id="originalPreviewSize">원본 파일 없음</div>
+            </figure>
+            <figure class="preview-card">
+              <figcaption><strong>압축 결과</strong><span>Compressed</span></figcaption>
+              <div class="preview-frame" id="resultFrame"><div class="preview-placeholder" id="resultPlaceholder"><span aria-hidden="true">↓</span><p>압축 후 여기에 표시됩니다</p></div><img id="resultPreview" alt="실제 압축 결과 파일 미리보기" hidden></div>
+              <div class="preview-meta" id="resultPreviewSize">압축 결과 없음</div>
+            </figure>
+          </div>
+          <p class="panel__hint preview-note">두 이미지는 동일한 표시 영역에 비율을 유지한 채 표시됩니다. 저장된 실제 파일은 미리보기와 해상도가 다를 수 있습니다.</p>
+        </section>
+
+        <section class="panel result-panel" id="resultPanel" aria-labelledby="result-title" hidden>
+          <div class="section-title"><span class="section-number section-number--muted" aria-hidden="true">✓</span><div><h2 id="result-title">압축 결과</h2><p lang="en">Compression Result</p></div></div>
+          <div class="result-highlight"><span id="reductionLabel">용량 감소율</span><strong id="reductionRate">–</strong><p id="reductionDetail">–</p></div>
+          <dl class="result-list">
+            <div><dt>원본 파일</dt><dd id="resultOriginalSize">–</dd></div>
+            <div><dt>압축 결과</dt><dd id="resultCompressedSize">–</dd></div>
+            <div><dt>원본 해상도</dt><dd id="resultOriginalResolution">–</dd></div>
+            <div><dt>결과 해상도</dt><dd id="resultOutputResolution">–</dd></div>
+            <div><dt>저장 형식</dt><dd id="resultFormat">–</dd></div>
+            <div><dt>목표 용량</dt><dd id="resultTarget">–</dd></div>
+          </dl>
+          <p class="result-outcome" id="resultOutcome"></p>
+          <p class="result-guidance" id="resultGuidance" hidden></p>
+          <div class="download-section">
+            <div class="section-title section-title--small"><div><h3>이미지 다운로드</h3><p lang="en">Download Image</p></div></div>
+            <button type="button" class="button button--primary button--full" id="downloadButton" disabled>압축 이미지 다운로드 ↓</button>
+          </div>
+        </section>
+      </div>
+    </div>
+    <section class="pix-info-section pix-guide-section" aria-labelledby="pix-guide-title">
+      <div class="pix-info-heading"><h2 id="pix-guide-title">사용 방법</h2></div>
+      <ol class="pix-guide-grid">
+        <li class="pix-guide-card"><span class="pix-guide-number">01</span><h3>사진 업로드</h3><p>용량을 줄일 사진을 불러옵니다.</p></li>
+        <li class="pix-guide-card"><span class="pix-guide-number">02</span><h3>목표 용량 선택</h3><p>제공되는 목표 용량을 선택하거나 필요한 값을 직접 입력합니다.</p></li>
+        <li class="pix-guide-card"><span class="pix-guide-number">03</span><h3>형식 확인</h3><p>JPEG, PNG 또는 WEBP 등 원하는 결과 형식을 확인합니다.</p></li>
+        <li class="pix-guide-card"><span class="pix-guide-number">04</span><h3>압축 및 저장</h3><p>압축 결과와 변경된 용량을 확인한 뒤 파일을 저장합니다.</p></li>
+      </ol>
+    </section>
+    <section class="pix-info-section pix-faq-section" aria-labelledby="pix-faq-title">
+      <div class="pix-info-heading"><h2 id="pix-faq-title">자주 묻는 질문</h2></div>
+      <div class="pix-faq-list">
+        <details class="pix-faq-item"><summary>목표 용량과 정확히 같은 크기로 만들어지나요?</summary><p>이미지 형식과 내용에 따라 차이가 있을 수 있으며 가능한 범위에서 설정한 목표 용량에 맞춰 압축합니다.</p></details>
+        <details class="pix-faq-item"><summary>원본 파일은 변경되나요?</summary><p>아니요. 브라우저에서 새로운 압축 결과 파일을 생성합니다.</p></details>
+        <details class="pix-faq-item"><summary>PNG도 용량을 줄일 수 있나요?</summary><p>지원되는 출력 형식에서 PNG를 선택할 수 있지만 이미지 특성에 따라 JPEG나 WEBP와 압축 효율이 다를 수 있습니다.</p></details>
+        <details class="pix-faq-item"><summary>사진이 서버에 업로드되나요?</summary><p>이미지 압축 작업은 사용 중인 브라우저에서 처리됩니다.</p></details>
+      </div>
+    </section>
+  </main>
+
+
+    <div data-component="footer"></div>
+</body>
+</html>

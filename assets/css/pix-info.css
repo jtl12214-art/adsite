@@ -1,0 +1,168 @@
+.pix-info-section {
+    width: 100%;
+    max-width: 1120px;
+    margin: 56px auto 0;
+    color: #2D2A26;
+}
+
+.pix-info-section + .pix-info-section {
+    margin-top: 48px;
+}
+
+.pix-info-heading {
+    margin-bottom: 20px;
+}
+
+.pix-info-heading h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.4;
+    word-break: keep-all;
+}
+
+.pix-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pix-guide-card {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid #E9E4DF;
+    border-radius: 9px;
+    background: #FFFFFF;
+}
+
+.pix-guide-number {
+    display: block;
+    color: #C55200;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.pix-guide-card h3 {
+    margin: 10px 0 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+    word-break: keep-all;
+}
+
+.pix-guide-card p {
+    margin: 7px 0 0;
+    color: #625C56;
+    font-size: 13px;
+    line-height: 1.75;
+    word-break: keep-all;
+}
+
+.pix-faq-list {
+    display: grid;
+    gap: 10px;
+}
+
+.pix-faq-item {
+    min-width: 0;
+    border: 1px solid #E9E4DF;
+    border-radius: 8px;
+    background: #FFFFFF;
+}
+
+.pix-faq-item summary {
+    position: relative;
+    padding: 16px 46px 16px 18px;
+    color: #2D2A26;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.65;
+    cursor: pointer;
+    list-style: none;
+    overflow-wrap: anywhere;
+}
+
+.pix-faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.pix-faq-item summary::after {
+    position: absolute;
+    top: 50%;
+    right: 19px;
+    color: #C55200;
+    content: "+";
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    transform: translateY(-50%);
+}
+
+.pix-faq-item[open] summary::after {
+    content: "−";
+}
+
+.pix-faq-item summary:focus-visible {
+    outline: 3px solid rgba(197, 82, 0, 0.3);
+    outline-offset: 3px;
+}
+
+.pix-faq-item p {
+    margin: 0;
+    padding: 0 18px 17px;
+    color: #625C56;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+    .pix-guide-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .pix-info-section {
+        margin-top: 42px;
+    }
+
+    .pix-info-section + .pix-info-section {
+        margin-top: 36px;
+    }
+
+    .pix-info-heading {
+        margin-bottom: 15px;
+    }
+
+    .pix-info-heading h2 {
+        font-size: 21px;
+    }
+
+    .pix-guide-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .pix-guide-card {
+        padding: 15px 16px;
+    }
+
+    .pix-faq-item summary {
+        padding: 14px 42px 14px 15px;
+        font-size: 13px;
+    }
+
+    .pix-faq-item summary::after {
+        right: 15px;
+    }
+
+    .pix-faq-item p {
+        padding: 0 15px 15px;
+        font-size: 13px;
+    }
+}

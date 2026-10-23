@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="여러 장의 사진을 원하는 레이아웃으로 한 장에 담아 콜라주를 만들어보세요.">
+    <title>사진 콜라주 | PIX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="collage/assets/css/reset.css">
+    <link rel="stylesheet" href="collage/assets/css/normalize.css">
+    <link rel="stylesheet" href="collage/assets/css/commons.css">
+    <link rel="stylesheet" href="collage/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/pix-header.css">
+    <link rel="stylesheet" href="assets/css/pix-info.css">
+    <script defer src="collage/assets/js/main.js"></script>
+    <script defer src="assets/js/header.js"></script>
+</head>
+<body>
+    <div data-component="header"></div>
+
+    <main class="container page-main">
+        <section class="intro" aria-labelledby="page-title">
+            <h1 id="page-title">사진 콜라주</h1>
+            <p class="intro-lead">여러 장의 사진을 원하는 레이아웃으로 한 장에 담아보세요.</p>
+            <p class="intro-description">템플릿과 비율을 선택하고 사진의 위치와 크기를 조절해 나만의 콜라주를 만들 수 있습니다.</p>
+        </section>
+
+        <section class="editor" aria-label="콜라주 편집기">
+            <div class="editor-layout">
+                <aside class="settings-column" aria-label="콜라주 설정">
+                    <section class="setting-section upload-section" aria-labelledby="upload-title">
+                        <div class="section-heading"><span class="step-number">01</span><h2 id="upload-title">사진 업로드</h2></div>
+                        <div class="upload-box" id="upload-box" tabindex="0" role="button" aria-label="사진 업로드 영역">
+                            <input class="visually-hidden" type="file" id="image-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple aria-label="콜라주 사진 선택">
+                            <span class="upload-icon" aria-hidden="true"><span></span></span>
+                            <p class="upload-title">사진을 선택하거나 여기에 놓아주세요</p>
+                            <p class="upload-formats">JPG, PNG, WEBP · 최대 6장</p>
+                            <button class="button button-secondary upload-button" type="button" id="select-image-button">사진 선택</button>
+                        </div>
+                        <p class="field-error" id="upload-error" role="alert" aria-live="polite"></p>
+                        <div class="photo-list" id="photo-list" aria-label="업로드된 사진"></div>
+                    </section>
+
+                    <section class="setting-section template-section" aria-labelledby="template-title">
+                        <div class="section-heading"><span class="step-number">02</span><h2 id="template-title">템플릿 선택</h2></div>
+                        <div class="template-tabs" id="template-tabs" role="tablist" aria-label="사진 개수별 템플릿"></div>
+                        <div class="template-grid" id="template-grid" role="group" aria-label="콜라주 템플릿"></div>
+                    </section>
+
+                    <section class="setting-section ratio-section" aria-labelledby="ratio-title">
+                        <div class="section-heading"><span class="step-number">03</span><h2 id="ratio-title">출력 비율</h2></div>
+                        <div class="ratio-options" id="ratio-options" role="group" aria-label="출력 비율"></div>
+                    </section>
+
+                    <section class="setting-section photo-adjust-section" aria-labelledby="photo-adjust-title">
+                        <div class="section-heading"><span class="step-number">04</span><h2 id="photo-adjust-title">사진 조정</h2></div>
+                        <label class="range-control" for="zoom-slider">
+                            <span>사진 확대</span><output id="zoom-value" for="zoom-slider">100%</output>
+                            <input id="zoom-slider" type="range" min="100" max="200" value="100" step="1">
+                        </label>
+                        <button class="button button-secondary reset-position" type="button" id="reset-position-button">위치 초기화</button>
+                        <p class="control-hint" id="selected-frame-label" aria-live="polite">선택된 칸: 01</p>
+                    </section>
+
+                    <section class="setting-section layout-section" aria-labelledby="layout-title">
+                        <div class="section-heading"><span class="step-number">05</span><h2 id="layout-title">레이아웃 조정</h2></div>
+                        <label class="range-control" for="margin-slider"><span>바깥 여백</span><output id="margin-value" for="margin-slider">20</output><input id="margin-slider" type="range" min="0" max="100" value="20"></label>
+                        <label class="range-control" for="gap-slider"><span>사진 간격</span><output id="gap-value" for="gap-slider">12</output><input id="gap-slider" type="range" min="0" max="60" value="12"></label>
+                        <label class="range-control" for="radius-slider"><span>둥근 모서리</span><output id="radius-value" for="radius-slider">16</output><input id="radius-slider" type="range" min="0" max="80" value="16"></label>
+                        <fieldset class="background-control">
+                            <legend>배경색</legend>
+                            <div class="background-options">
+                                <button class="color-swatch is-active" type="button" data-color="#ffffff" aria-label="흰색 배경" aria-pressed="true"><span class="swatch-white"></span>흰색</button>
+                                <button class="color-swatch" type="button" data-color="#000000" aria-label="검정 배경" aria-pressed="false"><span class="swatch-black"></span>검정</button>
+                                <label class="custom-color-label" for="background-color">사용자 지정<input id="background-color" type="color" value="#ffffff" aria-label="사용자 지정 배경색"></label>
+                            </div>
+                        </fieldset>
+                    </section>
+
+                    <section class="setting-section format-section" aria-labelledby="format-title">
+                        <div class="section-heading"><span class="step-number">06</span><h2 id="format-title">저장 형식</h2></div>
+                        <div class="format-options" id="format-options" role="group" aria-label="저장 형식">
+                            <button class="format-button is-active" type="button" data-format="image/png" aria-pressed="true">PNG</button>
+                            <button class="format-button" type="button" data-format="image/jpeg" aria-pressed="false">JPEG</button>
+                        </div>
+                        <p class="format-notice" id="jpeg-notice" hidden>JPEG 저장 시 이미지 품질이 일부 저하될 수 있습니다. 권장 형식은 PNG입니다.</p>
+                    </section>
+
+                    <section class="setting-section save-section" aria-labelledby="save-title">
+                        <div class="section-heading"><span class="step-number">07</span><h2 id="save-title">결과 저장</h2></div>
+                        <button class="button button-primary save-button" type="button" id="save-button" disabled>콜라주 저장</button>
+                    </section>
+                </aside>
+
+                <section class="preview-section" aria-labelledby="preview-title">
+                    <div class="preview-heading">
+                        <h2 id="preview-title">콜라주 미리보기</h2>
+                        <p id="preview-description" aria-live="polite">사진을 업로드하면 콜라주를 미리볼 수 있습니다.</p>
+                    </div>
+                    <div class="preview-stage" id="preview-stage">
+                        <canvas id="preview-canvas" aria-label="콜라주 미리보기. 사진 칸을 선택하고 드래그하여 위치를 조정할 수 있습니다." tabindex="0"></canvas>
+                        <div class="empty-preview" id="empty-preview">사진을 업로드하면 콜라주를 미리볼 수 있습니다.</div>
+                    </div>
+                    <p class="preview-hint">사진 칸을 선택한 뒤 드래그하여 위치를 조정하세요.</p>
+                </section>
+            </div>
+        </section>
+        <section class="pix-info-section pix-guide-section" aria-labelledby="pix-guide-title">
+            <div class="pix-info-heading"><h2 id="pix-guide-title">사용 방법</h2></div>
+            <ol class="pix-guide-grid">
+                <li class="pix-guide-card"><span class="pix-guide-number">01</span><h3>사진 업로드</h3><p>콜라주에 사용할 사진을 최대 6장까지 추가합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">02</span><h3>템플릿 선택</h3><p>사진 수와 원하는 배치에 맞는 콜라주 템플릿을 선택합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">03</span><h3>사진 조정</h3><p>각 영역의 사진을 이동하거나 확대해 원하는 구도로 맞춥니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">04</span><h3>저장</h3><p>출력 비율, 간격, 모서리와 배경을 확인한 뒤 결과를 저장합니다.</p></li>
+            </ol>
+        </section>
+        <section class="pix-info-section pix-faq-section" aria-labelledby="pix-faq-title">
+            <div class="pix-info-heading"><h2 id="pix-faq-title">자주 묻는 질문</h2></div>
+            <div class="pix-faq-list">
+                <details class="pix-faq-item"><summary>사진은 최대 몇 장까지 사용할 수 있나요?</summary><p>현재 한 번에 최대 6장의 사진을 사용할 수 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>템플릿은 몇 개 제공되나요?</summary><p>2장부터 6장까지 사용할 수 있는 총 26개의 템플릿을 제공합니다.</p></details>
+                <details class="pix-faq-item"><summary>사진 위치를 직접 조정할 수 있나요?</summary><p>네. 원하는 프레임을 선택한 뒤 사진을 이동하거나 확대해 구도를 조정할 수 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>콜라주 크기는 어떻게 저장되나요?</summary><p>선택한 출력 비율에 맞는 고해상도 결과 이미지로 저장됩니다.</p></details>
+            </div>
+        </section>
+    </main>
+    <div data-component="footer"></div>
+</body>
+</html>

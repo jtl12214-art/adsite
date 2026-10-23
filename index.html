@@ -3,166 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="사진을 자르지 않고 SNS 피드 비율에 맞춰 여백을 추가해 저장하세요.">
-    <title>PixFit (사진 여백 추가) | 사진 비율 조정</title>
+    <meta name="description" content="이미지 여백 추가, 분할, 콜라주, 자르기, 모자이크, 워터마크, 색상 추출, 해상도 계산, 용량 줄이기, 파일 변환을 브라우저에서 간편하게 사용할 수 있는 무료 이미지 도구입니다.">
+    <title>PIX | 무료 이미지 편집 도구</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/commons.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/pix-header.css">
+    <script defer src="assets/js/header.js"></script>
 </head>
 <body>
-    <header class="site-header">
-        <div class="container header-inner">
-            <a class="brand" href="./" aria-label="PixFit 홈">
-                <span class="brand-mark" aria-hidden="true"><span></span></span>
-                <span>PixFit</span>
-            </a>
-            <span class="header-note">사진 여백 추가 · 비율 조정</span>
-        </div>
-    </header>
+    <div data-component="header"></div>
 
-    <main class="container page-main">
-        <section class="intro" aria-labelledby="page-title">
-            <h1 id="page-title">PixFit (사진 여백 추가)</h1>
-            <p class="intro-lead">사진은 그대로, 피드 비율만 맞춰보세요.</p>
-            <p class="intro-en" aria-hidden="true">Adjust your photo ratio without cropping.</p>
-            <p class="intro-description">이미지를 자르지 않고 원하는 비율과 여백을 추가해 SNS 업로드에 적합한 이미지로 만들어보세요.</p>
-        </section>
-
-        <section class="editor" aria-label="이미지 편집기">
-            <div class="editor-layout">
-                <section class="setting-section upload-section" aria-labelledby="upload-title">
-                    <div class="section-heading">
-                        <span class="step-number">01</span>
-                        <div class="section-title-group">
-                            <h2 id="upload-title">이미지 업로드</h2>
-                            <p class="section-en" aria-hidden="true">Upload Image</p>
-                        </div>
-                    </div>
-                    <div class="upload-box">
-                        <input class="visually-hidden" type="file" id="image-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
-                        <span class="upload-icon" aria-hidden="true"><span></span></span>
-                        <p class="upload-title">이미지를 선택해주세요</p>
-                        <p class="upload-formats">JPG, PNG, WEBP 지원</p>
-                        <button class="button button-secondary upload-button" type="button" id="select-image-button">파일 선택</button>
-                        <p class="file-name" id="file-name" aria-live="polite">선택된 파일 없음</p>
-                    </div>
-                    <p class="field-error" id="upload-error" role="alert"></p>
-                </section>
-
-                <section class="setting-section ratio-section" aria-labelledby="ratio-title">
-                    <div class="section-heading">
-                        <span class="step-number">02</span>
-                        <div class="section-title-group">
-                            <h2 id="ratio-title">비율 선택</h2>
-                            <p class="section-en" aria-hidden="true">Aspect Ratio</p>
-                        </div>
-                    </div>
-                    <div class="ratio-categories" role="tablist" aria-label="비율 카테고리">
-                        <button class="ratio-category-button is-active" type="button" role="tab" id="category-sns" data-category="sns" aria-selected="true" aria-controls="ratio-panel-sns">SNS</button>
-                        <button class="ratio-category-button" type="button" role="tab" id="category-camera" data-category="camera" aria-selected="false" aria-controls="ratio-panel-camera">카메라</button>
-                        <button class="ratio-category-button" type="button" role="tab" id="category-smartphone" data-category="smartphone" aria-selected="false" aria-controls="ratio-panel-smartphone">스마트폰</button>
-                    </div>
-                    <div class="ratio-panel" id="ratio-panel-sns" role="tabpanel" aria-labelledby="category-sns" data-category-panel="sns">
-                        <div class="ratio-options" role="group" aria-label="SNS 비율">
-                            <button class="ratio-button" type="button" data-ratio="1:1" aria-pressed="false"><span class="ratio-value">1:1</span><span class="ratio-description">정사각형 피드</span></button>
-                            <button class="ratio-button is-active" type="button" data-ratio="4:5" aria-pressed="true"><span class="ratio-value">4:5</span><span class="ratio-description">세로형 피드</span></button>
-                            <button class="ratio-button" type="button" data-ratio="3:4" aria-pressed="false"><span class="ratio-value">3:4</span><span class="ratio-description">긴 세로형 피드</span></button>
-                            <button class="ratio-button" type="button" data-ratio="1.91:1" aria-pressed="false"><span class="ratio-value">1.91:1</span><span class="ratio-description">가로형 피드</span></button>
-                            <button class="ratio-button" type="button" data-ratio="9:16" aria-pressed="false"><span class="ratio-value">9:16</span><span class="ratio-description">스토리 / 릴스</span></button>
-                        </div>
-                    </div>
-                    <div class="ratio-panel" id="ratio-panel-camera" role="tabpanel" aria-labelledby="category-camera" data-category-panel="camera" hidden>
-                        <div class="ratio-options" role="group" aria-label="카메라 비율">
-                            <button class="ratio-button" type="button" data-ratio="3:2" aria-pressed="false"><span class="ratio-value">3:2</span><span class="ratio-description">카메라 가로</span></button>
-                            <button class="ratio-button" type="button" data-ratio="2:3" aria-pressed="false"><span class="ratio-value">2:3</span><span class="ratio-description">카메라 세로</span></button>
-                            <button class="ratio-button" type="button" data-ratio="4:3" aria-pressed="false"><span class="ratio-value">4:3</span><span class="ratio-description">사진 가로</span></button>
-                            <button class="ratio-button" type="button" data-ratio="3:4" aria-pressed="false"><span class="ratio-value">3:4</span><span class="ratio-description">사진 세로</span></button>
-                            <button class="ratio-button" type="button" data-ratio="16:9" aria-pressed="false"><span class="ratio-value">16:9</span><span class="ratio-description">와이드 가로</span></button>
-                        </div>
-                    </div>
-                    <div class="ratio-panel" id="ratio-panel-smartphone" role="tabpanel" aria-labelledby="category-smartphone" data-category-panel="smartphone" hidden>
-                        <div class="ratio-options" role="group" aria-label="스마트폰 비율">
-                            <button class="ratio-button" type="button" data-ratio="9:16" aria-pressed="false"><span class="ratio-value">9:16</span><span class="ratio-description">세로형 화면</span></button>
-                            <button class="ratio-button" type="button" data-ratio="9:19.5" aria-pressed="false"><span class="ratio-value">9:19.5</span><span class="ratio-description">긴 세로형 화면</span></button>
-                            <button class="ratio-button" type="button" data-ratio="9:20" aria-pressed="false"><span class="ratio-value">9:20</span><span class="ratio-description">초장형 화면</span></button>
-                            <button class="ratio-button" type="button" data-ratio="19.5:9" aria-pressed="false"><span class="ratio-value">19.5:9</span><span class="ratio-description">가로형 화면</span></button>
-                            <button class="ratio-button" type="button" data-ratio="20:9" aria-pressed="false"><span class="ratio-value">20:9</span><span class="ratio-description">긴 가로형 화면</span></button>
-                        </div>
-                    </div>
-                    <p class="selected-ratio-label" aria-live="polite">현재 선택한 비율 : <strong id="selected-ratio">4:5</strong></p>
-                </section>
-
-                <section class="setting-section color-section" aria-labelledby="color-title">
-                    <div class="section-heading">
-                        <span class="step-number">03</span>
-                        <div class="section-title-group">
-                            <h2 id="color-title">여백 색상</h2>
-                            <p class="section-en" aria-hidden="true">Background Color</p>
-                        </div>
-                    </div>
-                    <div class="color-options" role="group" aria-label="여백 색상">
-                        <button class="color-option is-active" type="button" data-color="#ffffff" aria-label="흰색" aria-pressed="true">
-                            <span class="color-swatch swatch-white" aria-hidden="true"></span>
-                            <span>흰색</span>
-                        </button>
-                        <button class="color-option" type="button" data-color="#171918" aria-label="검정색" aria-pressed="false">
-                            <span class="color-swatch swatch-black" aria-hidden="true"></span>
-                            <span>검정색</span>
-                        </button>
-                        <label class="color-option custom-color-option" id="custom-color-option">
-                            <input type="color" id="custom-color" value="#d9e5df" aria-label="사용자 지정 색상 선택">
-                            <span>직접 선택</span>
-                        </label>
-                    </div>
-                </section>
-
-                <section class="preview-section" aria-labelledby="preview-title">
-                    <div class="preview-heading">
-                        <div class="section-title-group">
-                            <h2 id="preview-title">결과 미리보기</h2>
-                            <p class="section-en" aria-hidden="true">Live Preview</p>
-                        </div>
-                        <span class="preview-ratio" id="preview-ratio">4:5</span>
-                    </div>
-                    <div class="preview-workspace">
-                        <div class="preview-canvas" id="preview-canvas">
-                            <p class="preview-empty" id="preview-empty">이미지를 업로드하면 이곳에서 결과를 확인할 수 있습니다.</p>
-                            <img class="preview-image" id="preview-image" alt="선택한 비율과 여백 색상이 적용된 이미지 미리보기">
-                        </div>
-                    </div>
-                    <p class="preview-caption">원본 사진은 잘리지 않고 전체가 표시됩니다.</p>
-                </section>
-
-                <section class="save-section" aria-labelledby="save-title">
-                    <div class="section-heading save-heading">
-                        <span class="step-number">04</span>
-                        <div class="section-title-group">
-                            <h2 id="save-title">이미지 저장</h2>
-                            <p class="section-en" aria-hidden="true">Save Image</p>
-                        </div>
-                    </div>
-                    <p class="save-format-label">저장 형식 선택</p>
-                    <div class="save-format-options" role="group" aria-label="저장 형식 선택">
-                        <button class="save-format-button is-active" type="button" data-format="png" aria-pressed="true">PNG</button>
-                        <button class="save-format-button" type="button" data-format="jpeg" aria-pressed="false">JPEG</button>
-                    </div>
-                    <p class="jpeg-quality-note" id="jpeg-quality-note" hidden>JPEG 파일의 경우 압축 과정에서 화질이 일부 저하될 수 있습니다. 화질 보존을 위해 PNG 저장을 권장합니다.</p>
-                    <button class="button button-primary save-button" type="button" id="save-button" disabled>
-                        <span class="download-icon" aria-hidden="true"></span>
-                        이미지 저장하기
-                    </button>
-                    <p class="save-note" id="save-note" aria-live="polite">PNG 파일로 저장됩니다.</p>
-                </section>
+    <main>
+        <section class="home-hero" aria-labelledby="hero-title">
+            <div class="home-container hero-content">
+                <span class="hero-brand">PIX</span>
+                <h1 id="hero-title">사진 편집, 필요한 기능만 간편하게</h1>
+                <p class="hero-lead">설치 없이 브라우저에서 바로 사용할 수 있는 무료 이미지 도구입니다.</p>
+                <p class="hero-description">여백 추가부터 콜라주, 자르기, 워터마크, 용량 줄이기와 파일 변환까지 필요한 작업을 빠르게 처리해보세요.</p>
+                <a class="hero-cta" href="#tools">도구 살펴보기</a>
+                <p class="hero-note">이미지 작업은 브라우저에서 처리됩니다.</p>
             </div>
         </section>
-        <footer class="page-footer">이미지는 브라우저에서 처리되며 서버로 전송되지 않습니다.</footer>
+
+        <section class="tools-section" id="tools" aria-labelledby="tools-title">
+            <div class="home-container">
+                <div class="section-intro">
+                    <h2 id="tools-title">이미지 도구</h2>
+                    <p>원하는 기능을 선택해 바로 시작해보세요.</p>
+                </div>
+                <div class="tool-grid">
+                    <a class="tool-card" href="fit.html">
+                        <span class="tool-number" aria-hidden="true">01</span>
+                        <h3>여백 추가</h3>
+                        <p>사진을 자르지 않고 원하는 비율에 맞춰 여백을 추가합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="split.html">
+                        <span class="tool-number" aria-hidden="true">02</span>
+                        <h3>분할하기</h3>
+                        <p>사진 한 장을 2·4·8·16개의 이미지로 나누어 저장합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="collage.html">
+                        <span class="tool-number" aria-hidden="true">03</span>
+                        <h3>콜라주</h3>
+                        <p>여러 장의 사진을 다양한 레이아웃으로 한 장에 구성합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="crop.html">
+                        <span class="tool-number" aria-hidden="true">04</span>
+                        <h3>자르기·회전</h3>
+                        <p>필요한 영역만 자르고 사진의 방향을 90도 단위로 조정합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="blur.html">
+                        <span class="tool-number" aria-hidden="true">05</span>
+                        <h3>모자이크·블러</h3>
+                        <p>가리고 싶은 영역에 모자이크, 블러 또는 가리기 효과를 적용합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="watermark.html">
+                        <span class="tool-number" aria-hidden="true">06</span>
+                        <h3>워터마크</h3>
+                        <p>사진 위에 텍스트나 로고 워터마크를 원하는 위치에 추가합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="color.html">
+                        <span class="tool-number" aria-hidden="true">07</span>
+                        <h3>색상 추출</h3>
+                        <p>사진을 분석해 대표 색상과 HEX·RGB 값을 확인합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="ratio.html">
+                        <span class="tool-number" aria-hidden="true">08</span>
+                        <h3>해상도·비율 계산</h3>
+                        <p>이미지 해상도와 비율을 확인하고 원하는 크기를 계산합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="compress.html">
+                        <span class="tool-number" aria-hidden="true">09</span>
+                        <h3>용량 줄이기</h3>
+                        <p>사진 품질을 고려하면서 원하는 목표 용량에 맞게 압축합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                    <a class="tool-card" href="convert.html">
+                        <span class="tool-number" aria-hidden="true">10</span>
+                        <h3>파일 변환</h3>
+                        <p>JPG, PNG, WEBP 이미지 형식을 간편하게 변환합니다.</p>
+                        <span class="tool-action">사용하기 <span aria-hidden="true">→</span></span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section" aria-labelledby="features-title">
+            <div class="home-container">
+                <div class="section-intro">
+                    <h2 id="features-title">간편한 이미지 작업</h2>
+                </div>
+                <div class="feature-grid">
+                    <article class="feature-item">
+                        <h3>설치 없이</h3>
+                        <p>프로그램을 설치하지 않고 웹 브라우저에서 바로 사용할 수 있습니다.</p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>필요한 기능만</h3>
+                        <p>복잡한 편집 프로그램 대신 필요한 이미지 작업을 빠르게 처리할 수 있습니다.</p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>브라우저에서 처리</h3>
+                        <p>지원되는 이미지 작업은 사용 중인 브라우저에서 처리됩니다.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="steps-section" aria-labelledby="steps-title">
+            <div class="home-container">
+                <div class="section-intro">
+                    <h2 id="steps-title">사용 방법</h2>
+                </div>
+                <ol class="steps-list">
+                    <li><span class="step-number">01</span><span>원하는 이미지 도구 선택</span></li>
+                    <li><span class="step-number">02</span><span>사진 업로드 또는 값 입력</span></li>
+                    <li><span class="step-number">03</span><span>결과 확인 및 저장</span></li>
+                </ol>
+            </div>
+        </section>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="assets/js/main.js"></script>
+
+    <div data-component="footer"></div>
 </body>
 </html>

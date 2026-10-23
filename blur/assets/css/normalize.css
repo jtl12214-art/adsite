@@ -1,0 +1,4 @@
+body { line-height: 1.5; -webkit-text-size-adjust: 100%; }
+button { border: 0; }
+button, summary { -webkit-tap-highlight-color: transparent; }
+canvas { display: block; }

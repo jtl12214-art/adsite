@@ -1,0 +1,23 @@
+html {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    min-width: 320px;
+}
+
+button,
+input {
+    color: inherit;
+}
+
+button,
+label {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}

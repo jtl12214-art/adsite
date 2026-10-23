@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ff7a0b">
+  <meta name="description" content="사진의 원하는 부분만 간편하게 모자이크, 블러 또는 검정색 박스로 가려보세요. 얼굴, 번호판, 개인정보를 브라우저에서 편집하고 PNG·JPG로 저장할 수 있습니다.">
+  <meta name="keywords" content="사진 모자이크, 이미지 모자이크, 사진 블러, 온라인 모자이크, 얼굴 모자이크, 번호판 모자이크, 개인정보 가리기">
+  <title>모자이크·블러 | PIX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="blur/assets/css/reset.css">
+  <link rel="stylesheet" href="blur/assets/css/normalize.css">
+  <link rel="stylesheet" href="blur/assets/css/commons.css">
+  <link rel="stylesheet" href="blur/assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pix-header.css">
+  <link rel="stylesheet" href="assets/css/pix-info.css">
+  <script defer src="blur/assets/js/effects.js"></script>
+  <script defer src="blur/assets/js/editor.js"></script>
+  <script defer src="blur/assets/js/export.js"></script>
+  <script defer src="blur/assets/js/main.js"></script>
+    <script defer src="assets/js/header.js"></script>
+</head>
+<body>
+  <div data-component="header"></div>
+
+  <main class="page-shell">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">IMAGE PRIVACY</p>
+      <h1 id="page-title">모자이크·블러</h1>
+      <p class="intro-lead">가리고 싶은 부분만, 간편하고 깔끔하게.</p>
+      <p class="intro-description">사진을 업로드하고 원하는 영역에 모자이크, 블러 또는 가리기를 적용하세요.</p>
+      <p class="intro-english">Blur, pixelate, or hide selected areas of your photos.</p>
+    </section>
+
+    <section class="workspace" aria-label="사진 편집기">
+      <aside class="settings-panel">
+        <section class="panel-section upload-info-section">
+          <div class="section-heading">
+            <div><h2>이미지 업로드</h2><span>Upload Image</span></div>
+          </div>
+          <div id="image-info" class="image-info empty-info">
+            <span class="info-empty-icon" aria-hidden="true">▧</span>
+            <p>편집할 사진을 선택해주세요.</p>
+          </div>
+          <button id="change-image" class="button button-secondary button-full" type="button" disabled>이미지 변경</button>
+        </section>
+
+        <section id="tool-section" class="panel-section">
+          <div class="section-heading">
+            <div><h2>편집 도구</h2><span>Editing Tools</span></div>
+          </div>
+          <div class="tool-grid" role="group" aria-label="편집 도구">
+            <button class="tool-button is-active" type="button" data-tool="mosaic" aria-pressed="true" disabled>
+              <span class="tool-icon mosaic-icon" aria-hidden="true">▦</span><span>모자이크</span>
+            </button>
+            <button class="tool-button" type="button" data-tool="blur" aria-pressed="false" disabled>
+              <span class="tool-icon blur-icon" aria-hidden="true">◌</span><span>블러</span>
+            </button>
+            <button class="tool-button" type="button" data-tool="cover" aria-pressed="false" disabled>
+              <span class="tool-icon cover-icon" aria-hidden="true">▪</span><span>가리기</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="panel-section" id="effect-settings">
+          <div class="section-heading">
+            <div><h2 id="setting-title">효과 강도</h2><span id="setting-subtitle">Effect Strength</span></div>
+          </div>
+          <div id="strength-options" class="segmented-control" role="group" aria-label="효과 강도">
+            <button type="button" data-strength="weak" disabled>약함</button>
+            <button type="button" data-strength="medium" class="is-active" aria-pressed="true" disabled>보통</button>
+            <button type="button" data-strength="strong" disabled>강함</button>
+          </div>
+          <div id="cover-options" class="segmented-control cover-options" role="group" aria-label="가리기 색상" hidden>
+            <button type="button" data-color="#000000" class="is-active" aria-pressed="true" disabled><span class="color-dot black-dot"></span>검정색</button>
+            <button type="button" data-color="#ffffff" aria-pressed="false" disabled><span class="color-dot white-dot"></span>흰색</button>
+          </div>
+        </section>
+
+        <section class="panel-section areas-section">
+          <div class="section-heading section-heading-inline">
+            <div><h2>편집 영역</h2><span>Edit Areas</span></div>
+            <span id="area-count" class="count-badge">0</span>
+          </div>
+          <div id="area-list" class="area-list" aria-live="polite">
+            <p class="empty-areas">아직 편집한 영역이 없습니다.</p>
+          </div>
+          <div class="area-actions">
+            <button id="add-area" class="button button-secondary" type="button" disabled>＋ 새 영역 추가</button>
+            <button id="delete-area" class="icon-button" type="button" aria-label="선택 영역 삭제" title="선택 영역 삭제" disabled>삭제</button>
+          </div>
+          <button id="clear-areas" class="text-button" type="button" disabled>모든 편집 초기화</button>
+        </section>
+
+        <section class="panel-section save-section">
+          <div class="section-heading">
+            <div><h2>이미지 저장</h2><span>Save Image</span></div>
+          </div>
+          <div class="format-options" role="group" aria-label="저장 형식">
+            <button type="button" data-format="png" class="format-option is-active" aria-pressed="true" disabled>PNG</button>
+            <button type="button" data-format="jpg" class="format-option" aria-pressed="false" disabled>JPG</button>
+          </div>
+          <p id="format-note" class="format-note">투명 배경을 유지해 저장합니다.</p>
+          <button id="download" class="button button-primary button-full download-button" type="button" disabled>
+            <span class="download-icon" aria-hidden="true">↓</span><span>이미지 다운로드</span>
+          </button>
+          <p class="local-note">사진은 기기 밖으로 전송되지 않습니다.</p>
+        </section>
+      </aside>
+
+      <section class="editor-panel" aria-label="이미지 편집 미리보기">
+        <div class="editor-toolbar">
+          <div class="toolbar-group">
+            <button id="undo" class="icon-button" type="button" aria-label="실행 취소" title="실행 취소 (Ctrl/Cmd+Z)" disabled>↶</button>
+            <button id="redo" class="icon-button" type="button" aria-label="다시 실행" title="다시 실행 (Ctrl/Cmd+Shift+Z)" disabled>↷</button>
+          </div>
+          <div class="toolbar-group toolbar-right">
+            <button id="compare" class="button button-secondary compare-button" type="button" disabled>원본 보기</button>
+            <button id="fit" class="button button-secondary" type="button" disabled>화면 맞춤</button>
+          </div>
+        </div>
+        <div id="canvas-stage" class="canvas-stage">
+          <div id="empty-upload" class="upload-prompt">
+            <div class="upload-illustration" aria-hidden="true">
+              <svg viewBox="0 0 56 56"><path d="M28 37V12m0 0-9 9m9-9 9 9M12 35v9a3 3 0 0 0 3 3h26a3 3 0 0 0 3-3v-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h2>이미지를 여기에 드래그하거나 선택하세요.</h2>
+            <p>JPG, PNG, WEBP · 최대 20MB</p>
+            <button id="select-image" class="button button-primary" type="button">이미지 선택</button>
+          </div>
+          <canvas id="editor-canvas" aria-label="편집할 이미지. 드래그하여 영역을 선택하거나 이동하세요." hidden></canvas>
+          <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden>
+          <div id="drop-overlay" class="drop-overlay" hidden><span>여기에 이미지를 놓으세요</span></div>
+        </div>
+        <div id="mobile-tool-slot" class="mobile-tool-slot" hidden></div>
+        <div class="editor-bottom-bar">
+          <div class="zoom-controls">
+            <button id="zoom-out" class="icon-button" type="button" aria-label="축소" title="축소" disabled>−</button>
+            <span id="zoom-value" class="zoom-value">100%</span>
+            <button id="zoom-in" class="icon-button" type="button" aria-label="확대" title="확대" disabled>+</button>
+            <button id="pan-mode" class="button button-secondary pan-button" type="button" aria-pressed="false" disabled><span aria-hidden="true">✥</span> 이동</button>
+          </div>
+          <span id="image-dimensions" class="image-dimensions">이미지를 업로드해주세요</span>
+        </div>
+        <p id="canvas-hint" class="canvas-hint">가릴 영역을 드래그해 선택하세요.</p>
+      </section>
+    </section>
+
+    <section class="privacy-callout content-section" aria-labelledby="privacy-callout-title">
+      <div class="privacy-symbol" aria-hidden="true">✓</div>
+      <div>
+        <h2 id="privacy-callout-title">이미지는 브라우저에서 처리됩니다.</h2>
+        <p>업로드한 사진을 서버로 전송하지 않고 브라우저에서 편집합니다. 사진은 별도의 계정이나 데이터베이스에 저장되지 않습니다.</p>
+        <p class="privacy-warning">전화번호, 주소 등 민감한 정보는 모자이크나 블러보다 불투명 가리기를 사용하는 것이 좋습니다.</p>
+      </div>
+    </section>
+
+    <section class="pix-info-section pix-guide-section" aria-labelledby="pix-guide-title">
+      <div class="pix-info-heading"><h2 id="pix-guide-title">사용 방법</h2></div>
+      <ol class="pix-guide-grid">
+        <li class="pix-guide-card"><span class="pix-guide-number">01</span><h3>사진 업로드</h3><p>가리고 싶은 영역이 있는 사진을 불러옵니다.</p></li>
+        <li class="pix-guide-card"><span class="pix-guide-number">02</span><h3>효과 선택</h3><p>모자이크, 블러, 검정 또는 흰색 가리기 중 원하는 효과를 선택합니다.</p></li>
+        <li class="pix-guide-card"><span class="pix-guide-number">03</span><h3>영역 지정</h3><p>사진 위에서 원하는 영역을 선택하고 효과를 적용합니다.</p></li>
+        <li class="pix-guide-card"><span class="pix-guide-number">04</span><h3>저장</h3><p>편집 결과를 확인한 뒤 PNG 또는 JPG 형식으로 저장합니다.</p></li>
+      </ol>
+    </section>
+    <section class="pix-info-section pix-faq-section" aria-labelledby="pix-faq-title">
+      <div class="pix-info-heading"><h2 id="pix-faq-title">자주 묻는 질문</h2></div>
+      <div class="pix-faq-list">
+        <details class="pix-faq-item"><summary>모자이크와 블러의 차이는 무엇인가요?</summary><p>모자이크는 영역을 픽셀 블록 형태로 가리고, 블러는 영역을 흐리게 표현합니다.</p></details>
+        <details class="pix-faq-item"><summary>여러 영역에 효과를 적용할 수 있나요?</summary><p>네. 필요한 영역을 여러 번 선택해 각각 효과를 적용할 수 있습니다.</p></details>
+        <details class="pix-faq-item"><summary>잘못 적용한 효과를 되돌릴 수 있나요?</summary><p>편집 화면에서 제공되는 실행 취소 기능을 이용해 이전 상태로 돌아갈 수 있습니다.</p></details>
+        <details class="pix-faq-item"><summary>원본 사진 자체가 변경되나요?</summary><p>아니요. 브라우저에서 편집 결과를 새 이미지로 생성하므로 원본 파일 자체는 변경되지 않습니다.</p></details>
+      </div>
+    </section>
+  </main>
+
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <div data-component="footer"></div>
+</body>
+</html>

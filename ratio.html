@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="이미지 해상도를 확인하고 비율을 유지한 목표 크기를 계산하세요.">
+    <title>해상도·비율 계산 | PIX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ratio/assets/css/reset.css">
+    <link rel="stylesheet" href="ratio/assets/css/normalize.css">
+    <link rel="stylesheet" href="ratio/assets/css/commons.css">
+    <link rel="stylesheet" href="ratio/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/pix-header.css">
+    <link rel="stylesheet" href="assets/css/pix-info.css">
+    <script defer src="ratio/assets/js/main.js"></script>
+    <script defer src="assets/js/header.js"></script>
+</head>
+<body>
+    <div data-component="header"></div>
+
+    <main class="container page-main">
+        <section class="intro" aria-labelledby="page-title">
+            <h1 id="page-title">해상도·비율 계산</h1>
+            <p class="intro-lead">이미지의 해상도와 비율을 확인하고 원하는 크기를 계산해보세요.</p>
+            <p class="intro-description">사진의 원본 정보를 확인하거나 가로·세로 값을 입력해 비율을 유지한 해상도를 간편하게 계산할 수 있습니다.</p>
+        </section>
+
+        <section class="workspace" aria-label="해상도 및 비율 계산기">
+            <div class="settings-column">
+                <section class="panel upload-panel" aria-labelledby="upload-title">
+                    <div class="section-heading"><span class="step-number">01</span><h2 id="upload-title">이미지 불러오기</h2></div>
+                    <div class="upload-box" id="upload-box">
+                        <input class="visually-hidden" type="file" id="image-input" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" aria-label="해상도를 확인할 이미지 선택">
+                        <p class="upload-title">이미지를 선택하거나 여기에 놓아주세요</p>
+                        <p class="upload-formats">JPG, PNG, WEBP · 최대 20MB</p>
+                        <label class="button button-secondary upload-button" for="image-input">파일 선택</label>
+                        <p class="file-name" id="file-name" aria-live="polite">선택된 파일 없음</p>
+                    </div>
+                    <p class="field-error" id="upload-error" role="alert" aria-live="polite"></p>
+                    <div class="preview-stage" id="preview-stage">
+                        <canvas id="preview-canvas" aria-label="업로드 이미지 미리보기"></canvas>
+                        <p class="empty-preview" id="empty-preview">이미지를 불러오면 미리볼 수 있습니다.</p>
+                    </div>
+                </section>
+
+                <section class="panel dimension-panel" aria-labelledby="source-dimensions-title">
+                    <div class="section-heading"><span class="step-number">02</span><h2 id="source-dimensions-title">기준 해상도</h2></div>
+                    <div class="dimension-inputs">
+                        <div class="number-field">
+                            <label for="source-width">기준 가로</label>
+                            <div class="input-with-unit"><input id="source-width" type="number" min="1" max="100000" step="1" inputmode="numeric" autocomplete="off"><span>px</span></div>
+                            <p class="field-error" id="source-width-error" role="alert" aria-live="polite"></p>
+                        </div>
+                        <span class="dimension-times" aria-hidden="true">×</span>
+                        <div class="number-field">
+                            <label for="source-height">기준 세로</label>
+                            <div class="input-with-unit"><input id="source-height" type="number" min="1" max="100000" step="1" inputmode="numeric" autocomplete="off"><span>px</span></div>
+                            <p class="field-error" id="source-height-error" role="alert" aria-live="polite"></p>
+                        </div>
+                    </div>
+                    <p class="field-hint">이미지를 불러오거나 가로·세로 값을 직접 입력할 수 있습니다.</p>
+                </section>
+
+                <section class="panel dimension-panel target-panel" aria-labelledby="target-title">
+                    <div class="section-heading"><span class="step-number">03</span><h2 id="target-title">목표 해상도</h2></div>
+                    <label class="ratio-lock" for="maintain-ratio">
+                        <input id="maintain-ratio" type="checkbox" checked>
+                        <span class="switch" aria-hidden="true"></span>
+                        <span>비율 유지</span>
+                    </label>
+                    <p class="field-hint ratio-hint" id="ratio-hint" hidden>비율을 유지하지 않으면 원본과 다른 비율이 될 수 있습니다.</p>
+                    <div class="dimension-inputs target-inputs">
+                        <div class="number-field">
+                            <label for="target-width">목표 가로</label>
+                            <div class="input-with-unit"><input id="target-width" type="number" min="1" max="100000" step="1" inputmode="numeric" autocomplete="off"><span>px</span></div>
+                            <p class="field-error" id="target-width-error" role="alert" aria-live="polite"></p>
+                        </div>
+                        <span class="dimension-times" aria-hidden="true">×</span>
+                        <div class="number-field">
+                            <label for="target-height">목표 세로</label>
+                            <div class="input-with-unit"><input id="target-height" type="number" min="1" max="100000" step="1" inputmode="numeric" autocomplete="off"><span>px</span></div>
+                            <p class="field-error" id="target-height-error" role="alert" aria-live="polite"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="action-row">
+                    <button class="button button-secondary reset-button" id="reset-button" type="button">초기화</button>
+                </div>
+            </div>
+
+            <section class="results-column" aria-label="해상도 계산 결과" aria-live="polite" aria-atomic="true">
+                <section class="panel original-panel" aria-labelledby="original-title">
+                    <div class="section-heading"><span class="result-mark" aria-hidden="true">01</span><h2 id="original-title">원본 정보</h2></div>
+                    <div class="original-content" id="original-content">
+                        <p class="empty-message">이미지를 불러오면 파일 정보를 확인할 수 있습니다.</p>
+                    </div>
+                    <div class="source-summary" id="source-summary">
+                        <p class="summary-empty">기준 해상도를 입력하면 원본 정보를 확인할 수 있습니다.</p>
+                    </div>
+                </section>
+                <section class="panel result-panel" aria-labelledby="result-title">
+                    <div class="section-heading"><span class="result-mark" aria-hidden="true">02</span><h2 id="result-title">계산 결과</h2></div>
+                    <div class="result-content" id="result-content">
+                        <p class="empty-message">기준 해상도를 입력하면 계산 결과를 확인할 수 있습니다.</p>
+                    </div>
+                </section>
+            </section>
+        </section>
+        <section class="pix-info-section pix-guide-section" aria-labelledby="pix-guide-title">
+            <div class="pix-info-heading"><h2 id="pix-guide-title">사용 방법</h2></div>
+            <ol class="pix-guide-grid">
+                <li class="pix-guide-card"><span class="pix-guide-number">01</span><h3>이미지 또는 기준값 입력</h3><p>사진을 불러오거나 기준 가로·세로 픽셀 값을 직접 입력합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">02</span><h3>원본 비율 확인</h3><p>입력한 해상도의 비율, 방향과 총 화소 정보를 확인합니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">03</span><h3>목표 크기 입력</h3><p>목표 가로 또는 세로를 입력하면 원본 비율을 유지한 반대쪽 값을 자동 계산할 수 있습니다.</p></li>
+                <li class="pix-guide-card"><span class="pix-guide-number">04</span><h3>결과 복사</h3><p>계산된 해상도와 비율을 확인하고 필요한 결과를 복사합니다.</p></li>
+            </ol>
+        </section>
+        <section class="pix-info-section pix-faq-section" aria-labelledby="pix-faq-title">
+            <div class="pix-info-heading"><h2 id="pix-faq-title">자주 묻는 질문</h2></div>
+            <div class="pix-faq-list">
+                <details class="pix-faq-item"><summary>이미지를 업로드하지 않아도 사용할 수 있나요?</summary><p>네. 기준 가로와 세로 값을 직접 입력해 계산할 수 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>비율은 어떻게 계산되나요?</summary><p>가로와 세로 값의 최대공약수를 이용해 가장 단순한 정수 비율로 표시합니다.</p></details>
+                <details class="pix-faq-item"><summary>비율을 유지하지 않고 계산할 수도 있나요?</summary><p>네. 비율 유지 옵션을 끄면 목표 가로와 세로를 각각 독립적으로 입력할 수 있습니다.</p></details>
+                <details class="pix-faq-item"><summary>실제 이미지 파일의 용량도 계산해주나요?</summary><p>업로드한 원본 파일의 실제 용량은 표시하지만 해상도만으로 변환 후 파일 용량을 임의로 예측하지는 않습니다.</p></details>
+            </div>
+        </section>
+    </main>
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    <div data-component="footer"></div>
+</body>
+</html>
