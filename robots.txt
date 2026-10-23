@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jtl12214-art.github.io/adsite/sitemap.xml
