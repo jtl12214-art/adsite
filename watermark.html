@@ -35,12 +35,42 @@
     <link rel="stylesheet" href="watermark/assets/css/style.css">
     <link rel="stylesheet" href="assets/css/pix-header.css">
     <link rel="stylesheet" href="assets/css/pix-info.css">
+    <link rel="stylesheet" href="assets/css/coupang-banner.css">
 
     <script defer src="assets/js/main.js"></script>
     <script defer src="assets/js/header.js"></script>
 </head>
 <body>
     <div data-component="header"></div>
+
+    <!-- 쿠팡 파트너스 와이드 배너 영역 -->
+    <aside class="coupang-banner-section" aria-label="쿠팡 파트너스 배너">
+        <div class="coupang-banner-wrap">
+            <!-- PC 버전 (680x140) -->
+            <div class="coupang-banner-pc">
+                <script src="https://ads-partners.coupang.com/g.js"></script>
+                <script>
+                    new PartnersCoupang.G({"id":1044374,"template":"carousel","trackingCode":"AF8651142","width":"680","height":"140","tsource":""});
+                </script>
+            </div>
+            <!-- 모바일 버전 (280x140) -->
+            <div class="coupang-banner-mo">
+                <script src="https://ads-partners.coupang.com/g.js"></script>
+                <script>
+                    new PartnersCoupang.G({"id":1044374,"template":"carousel","trackingCode":"AF8651142","width":"280","height":"140","tsource":""});
+                </script>
+            </div>
+        </div>
+        <!-- 배너 하단 마퀴(흐르는 텍스트) 안내 문구 -->
+        <div class="coupang-marquee-wrapper" aria-hidden="true">
+            <div class="coupang-marquee-track">
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+            </div>
+        </div>
+        <p class="visually-hidden">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+    </aside>
 
     <main class="container page-main">
         <section class="intro" aria-labelledby="page-title">
