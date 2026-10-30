@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="달리는 공룡을 점프시켜 장애물을 피해 최고 기록에 도전하세요. 설치 없이 즐기는 무료 웹 미니게임입니다.">
+    <title>공룡 점프 | PIX 미니게임</title>
+    <link rel="canonical" href="https://adsite-eta.vercel.app/dino.html">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adsite-eta.vercel.app/dino.html">
+    <meta property="og:title" content="공룡 점프 | PIX 미니게임">
+    <meta property="og:description" content="달리는 공룡을 점프시켜 장애물을 피해 최고 기록에 도전하세요.">
+    <meta property="og:site_name" content="PIX">
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://adsite-eta.vercel.app/dino.html">
+    <meta name="twitter:title" content="공룡 점프 | PIX 미니게임">
+    <meta name="twitter:description" content="달리는 공룡을 점프시켜 장애물을 피해 최고 기록에 도전하세요.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/commons.css">
+    <link rel="stylesheet" href="assets/css/pix-header.css">
+    <link rel="stylesheet" href="assets/css/coupang-banner.css">
+    <link rel="stylesheet" href="assets/css/pix-games.css">
+    <link rel="stylesheet" href="dino/assets/css/style.css">
+    <script defer src="assets/js/header.js"></script>
+</head>
+
+<body>
+    <div data-component="header"></div>
+
+    <!-- 쿠팡 파트너스 배너 영역 -->
+    <aside class="coupang-banner-section" aria-label="쿠팡 파트너스 배너">
+        <div class="coupang-banner-wrap">
+            <div class="coupang-banner-pc">
+                <script src="https://ads-partners.coupang.com/g.js"></script>
+                <script>
+                    new PartnersCoupang.G({"id":1044374,"template":"carousel","trackingCode":"AF8651142","width":"680","height":"140","tsource":""});
+                </script>
+            </div>
+            <div class="coupang-banner-mo">
+                <script src="https://ads-partners.coupang.com/g.js"></script>
+                <script>
+                    new PartnersCoupang.G({"id":1044374,"template":"carousel","trackingCode":"AF8651142","width":"280","height":"140","tsource":""});
+                </script>
+            </div>
+        </div>
+        <div class="coupang-marquee-wrapper" aria-hidden="true">
+            <div class="coupang-marquee-track">
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+            </div>
+        </div>
+        <p class="visually-hidden">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+    </aside>
+
+    <main class="container page-main dino-page">
+        <!-- Game Intro -->
+        <section class="pix-game-intro" aria-labelledby="game-title">
+            <a class="pix-game-back-link" href="index.html#tools">← PIX 이미지 도구로 돌아가기</a>
+            <div>
+                <span class="pix-games-eyebrow">PIX PLAY</span>
+                <h1 id="game-title">공룡 점프</h1>
+                <p class="pix-game-desc">달리는 공룡을 점프시켜 장애물을 피해 최고 기록에 도전하세요.</p>
+            </div>
+        </section>
+
+        <!-- Hidden Sprite Resources for Chromium Runner -->
+        <div id="offline-resources" style="display: none;" aria-hidden="true">
+            <img id="offline-resources-1x" src="dino/assets/images/100-offline-sprite.png" alt="1x sprite">
+            <img id="offline-resources-2x" src="dino/assets/images/200-offline-sprite.png" alt="2x sprite">
+        </div>
+
+        <!-- Game Area -->
+        <section class="dino-game-wrapper" aria-label="공룡 점프 게임 화면">
+            <div id="dino-stage" class="dino-stage-container" tabindex="0" role="region" aria-label="공룡 점프 조작 영역">
+                <div id="dino-runner-box" class="dino-runner-box"></div>
+                <div id="dino-prompt" class="dino-prompt-bar" aria-live="polite">스페이스바 또는 화면을 눌러 시작하세요.</div>
+                <button id="dino-restart-btn" class="dino-restart-btn" type="button">다시 도전하기</button>
+            </div>
+        </section>
+        <div id="dino-error" class="dino-error-notice" role="alert"></div>
+
+        <!-- Guide / Controls Section -->
+        <section class="pix-game-guide-section" aria-labelledby="controls-title">
+            <div class="pix-game-guide-card">
+                <h2 id="controls-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="17" cy="10" r="1"/><circle cx="15" cy="14" r="1"/></svg>
+                    조작 방법 &amp; 게임 안내
+                </h2>
+                <ul class="pix-game-guide-list">
+                    <li><strong>PC 조작:</strong> 스페이스바(Space) 또는 위쪽 방향키(↑)로 점프, 아래쪽 방향키(↓)로 몸을 숙입니다.</li>
+                    <li><strong>모바일 조작:</strong> 게임 화면을 가볍게 터치(Tap)하여 점프합니다.</li>
+                    <li><strong>속도 증가:</strong> 달린 거리가 늘어날수록 공룡의 속도가 점점 빨라집니다.</li>
+                    <li><strong>장애물 피하기:</strong> 선인장과 공중의 익룡을 타이밍에 맞춰 피하며 최고 점수를 갱신해보세요!</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Other Mini-Games -->
+        <section class="pix-other-games-section" aria-labelledby="other-games-title">
+            <div class="pix-other-games-header">
+                <h2 id="other-games-title">다른 미니게임</h2>
+                <p>다른 재미있는 미니게임도 즐겨보세요.</p>
+            </div>
+            <div class="pix-other-games-grid">
+                <a class="pix-game-card" href="tower.html">
+                    <div class="pix-game-card-preview" aria-hidden="true">
+                        <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g transform="translate(60, 16)">
+                                <path d="M-36 36 L0 50 L36 36 L0 22 Z" fill="#E8A87C"/>
+                                <path d="M-36 36 L0 50 L0 58 L-36 44 Z" fill="#C57D56"/>
+                                <path d="M0 50 L36 36 L36 44 L0 58 Z" fill="#D98E64"/>
+                                <path d="M-30 24 L4 37 L38 24 L4 11 Z" fill="#FF9A3C"/>
+                                <path d="M-30 24 L4 37 L4 44 L-30 31 Z" fill="#DB7317"/>
+                                <path d="M4 37 L38 24 L38 31 L4 44 Z" fill="#EE8425"/>
+                                <path d="M-24 12 L10 24 L44 12 L10 0 Z" fill="#FF6B6B"/>
+                                <path d="M-24 12 L10 24 L10 31 L-24 19 Z" fill="#D94141"/>
+                                <path d="M10 24 L44 12 L44 19 L10 31 Z" fill="#EB5353"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="pix-game-card-badge">클릭 · 터치 · 스페이스바</span>
+                    <h3>블록 쌓기</h3>
+                    <p class="pix-game-card-desc">타이밍에 맞춰 움직이는 블록을 정확하게 쌓아보세요.</p>
+                    <span class="pix-game-card-cta">게임 시작 →</span>
+                </a>
+
+                <a class="pix-game-card" href="maze.html">
+                    <div class="pix-game-card-preview" aria-hidden="true">
+                        <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g stroke="#C55200" stroke-width="2.5" stroke-linecap="round">
+                                <path d="M25 15 H95 V75 H25 Z" fill="#FFFDFB"/>
+                                <path d="M42 15 V35 H60"/>
+                                <path d="M78 15 V45"/>
+                                <path d="M25 55 H52 V75"/>
+                                <path d="M60 55 H78 V75"/>
+                                <path d="M42 45 H68"/>
+                            </g>
+                            <circle cx="34" cy="25" r="4.5" fill="#FF7A0B"/>
+                            <g transform="translate(82, 58)">
+                                <rect x="0" y="0" width="8" height="8" fill="#2D2A26"/>
+                                <rect x="4" y="0" width="4" height="4" fill="#FFFFFF"/>
+                                <rect x="0" y="4" width="4" height="4" fill="#FFFFFF"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="pix-game-card-badge">방향키 · 스와이프</span>
+                    <h3>미로 찾기</h3>
+                    <p class="pix-game-card-desc">랜덤으로 생성되는 미로에서 길을 찾아 출구까지 이동해보세요.</p>
+                    <span class="pix-game-card-cta">게임 시작 →</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <div data-component="footer"></div>
+
+    <!-- Scripts -->
+    <script src="dino/assets/js/main.js"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,149 @@
+/*
+Based on Chromium T-Rex Runner:
+Copyright (c) 2014 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license.
+CodePen reference: https://codepen.io/MysticReborn/pen/rygqao
+Modified for PIX.
+*/
+
+/* Scoped strictly to .dino-page */
+.dino-page {
+    width: 100%;
+}
+
+.dino-game-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    padding: 32px 24px 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dino-stage-container {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    touch-action: manipulation;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.dino-stage-container:focus-visible {
+    box-shadow: 0 0 0 3px var(--color-primary);
+    border-radius: 8px;
+}
+
+.dino-runner-box {
+    width: 100%;
+    max-width: 600px;
+    height: 150px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Chromium Runner injected classes */
+.dino-runner-box .runner-container {
+    height: 150px;
+    max-width: 600px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.dino-runner-box .runner-canvas {
+    height: 150px;
+    max-width: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+}
+
+.dino-prompt-bar {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-muted);
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.2s ease;
+}
+
+.dino-restart-btn {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-surface);
+    background: var(--color-primary);
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background-color 0.16s ease, transform 0.16s ease;
+}
+
+.dino-restart-btn:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+}
+
+.dino-restart-btn:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+.dino-stage-container.crashed .dino-restart-btn {
+    display: inline-flex;
+}
+
+.dino-error-notice {
+    display: none;
+    padding: 24px;
+    text-align: center;
+    color: #C55200;
+    background: #FFF1E6;
+    border-radius: 12px;
+    margin: 20px auto;
+    font-weight: 600;
+}
+
+@media (max-width: 640px) {
+    .dino-game-wrapper {
+        padding: 20px 16px 16px;
+    }
+
+    .dino-prompt-bar {
+        font-size: 13px;
+        margin-top: 12px;
+    }
+
+    .dino-restart-btn {
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+}
+

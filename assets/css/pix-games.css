@@ -1,0 +1,291 @@
+/* ==========================================================================
+   PIX Mini-Games Common Styles
+   ========================================================================== */
+
+/* Main Page Mini-Games Teaser Section */
+.pix-games-section {
+    padding: 64px 0 72px;
+    background: #FFF7EE;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.pix-games-intro {
+    margin-bottom: 28px;
+}
+
+.pix-games-eyebrow {
+    display: inline-block;
+    color: var(--color-primary);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.pix-games-intro h2 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.35;
+    color: var(--color-text);
+}
+
+.pix-games-intro p {
+    margin-top: 8px;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* 3-Card Grid */
+.pix-games-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.pix-game-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    box-shadow: 0 2px 8px rgba(45, 42, 38, 0.04);
+    position: relative;
+    overflow: hidden;
+}
+
+.pix-game-card:hover {
+    transform: translateY(-4px);
+    border-color: #FFB370;
+    box-shadow: 0 8px 24px rgba(197, 82, 0, 0.08);
+}
+
+.pix-game-card:focus-visible {
+    outline: 3px solid rgba(197, 82, 0, 0.35);
+    outline-offset: 3px;
+}
+
+/* Card Visual Preview Box */
+.pix-game-card-preview {
+    height: 120px;
+    width: 100%;
+    border-radius: 10px;
+    background: #FAF7F2;
+    border: 1px solid #F0ECE6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    overflow: hidden;
+    position: relative;
+}
+
+.pix-game-card-badge {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-primary);
+    background: var(--color-primary-soft);
+    padding: 4px 9px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+}
+
+.pix-game-card h3 {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.4;
+    color: var(--color-text);
+}
+
+.pix-game-card p.pix-game-card-desc {
+    margin-top: 8px;
+    color: var(--color-muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+    word-break: keep-all;
+    flex-grow: 1;
+}
+
+.pix-game-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid #F5F1EB;
+    color: var(--color-primary);
+    font-size: 13.5px;
+    font-weight: 700;
+    transition: gap 140ms ease;
+}
+
+.pix-game-card:hover .pix-game-card-cta {
+    gap: 10px;
+}
+
+/* Back Link for Game Pages */
+.pix-game-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-muted);
+    text-decoration: none;
+    margin-bottom: 14px;
+    transition: color 150ms ease;
+}
+
+.pix-game-back-link:hover {
+    color: var(--color-primary);
+}
+
+.pix-game-back-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Game Page Intro Section */
+.pix-game-intro {
+    text-align: center;
+    margin: 40px auto 28px;
+    max-width: 720px;
+}
+
+.pix-game-intro .pix-game-eyebrow {
+    margin-bottom: 4px;
+}
+
+.pix-game-intro h1 {
+    font-size: clamp(26px, 3.5vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--color-text);
+}
+
+.pix-game-intro .pix-game-desc {
+    margin-top: 10px;
+    font-size: 15px;
+    color: var(--color-muted);
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+/* Instructions / Controls Section in Game Pages */
+.pix-game-guide-section {
+    max-width: 880px;
+    margin: 40px auto 0;
+    padding: 0 8px;
+}
+
+.pix-game-guide-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 24px 28px;
+}
+
+.pix-game-guide-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pix-game-guide-list {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #4D4844;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.pix-game-guide-list strong {
+    color: var(--color-text);
+}
+
+/* "Other Mini-Games" Section in Game Pages */
+.pix-other-games-section {
+    max-width: 880px;
+    margin: 48px auto 60px;
+    padding: 0 8px;
+}
+
+.pix-other-games-header {
+    margin-bottom: 20px;
+}
+
+.pix-other-games-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+}
+
+.pix-other-games-header p {
+    font-size: 13.5px;
+    color: var(--color-muted);
+    margin-top: 4px;
+}
+
+.pix-other-games-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .pix-games-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .pix-games-section {
+        padding: 48px 0 56px;
+    }
+
+    .pix-games-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .pix-other-games-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .pix-game-card {
+        padding: 20px;
+    }
+
+    .pix-game-card-preview {
+        height: 100px;
+    }
+
+    .pix-game-guide-card {
+        padding: 20px;
+    }
+}
+

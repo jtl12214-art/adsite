@@ -1,0 +1,278 @@
+/*
+Based on:
+https://codepen.io/TheCodeDepository/pen/jKBaoN
+Original author: TheCodeDepository
+Modified for PIX:
+- Removed external Rick & Morty assets.
+- PIX Design System color scheme & responsive layout.
+- Scoped strictly to .maze-page.
+*/
+
+.maze-page {
+    width: 100%;
+}
+
+.maze-game-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Toolbar Menu */
+.maze-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.maze-select-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.maze-select-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.maze-select {
+    padding: 8px 32px 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2377716C' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: border-color 0.16s ease;
+}
+
+.maze-select:focus-visible {
+    border-color: var(--color-primary);
+    outline: 2px solid rgba(197, 82, 0, 0.25);
+}
+
+.maze-start-btn {
+    padding: 8px 20px;
+    background: var(--color-primary);
+    color: var(--color-surface);
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.16s ease, transform 0.16s ease;
+}
+
+.maze-start-btn:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+}
+
+.maze-start-btn:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Maze Canvas Viewport */
+.maze-view-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.maze-canvas-container {
+    width: min(520px, 100%);
+    aspect-ratio: 1 / 1;
+    background: #FFFAF6;
+    border: 2px solid #2D2A26;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 14px rgba(45, 42, 38, 0.06);
+    touch-action: none;
+}
+
+#mazeCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Mobile D-Pad Control Buttons */
+.maze-dpad {
+    display: none;
+    grid-template-columns: repeat(3, 48px);
+    grid-template-rows: repeat(3, 48px);
+    gap: 6px;
+    margin-top: 20px;
+    touch-action: manipulation;
+}
+
+.maze-dpad-btn {
+    background: #FFF1E6;
+    border: 1px solid #FFD8BA;
+    color: var(--color-primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: background-color 0.12s ease;
+}
+
+.maze-dpad-btn:active {
+    background: var(--color-primary);
+    color: #FFFFFF;
+}
+
+.maze-dpad-up { grid-column: 2; grid-row: 1; }
+.maze-dpad-left { grid-column: 1; grid-row: 2; }
+.maze-dpad-down { grid-column: 2; grid-row: 2; }
+.maze-dpad-right { grid-column: 3; grid-row: 2; }
+
+/* Victory Modal */
+.maze-modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 42, 38, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.maze-modal-backdrop.is-visible {
+    display: flex;
+}
+
+.maze-modal-content {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+    animation: mazeModalPop 0.25s ease-out;
+}
+
+@keyframes mazeModalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.maze-modal-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #FFF1E6;
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.maze-modal-content h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.maze-modal-content p {
+    font-size: 15px;
+    color: var(--color-muted);
+    margin: 10px 0 20px;
+    line-height: 1.5;
+}
+
+.maze-modal-stats {
+    background: #FAF7F2;
+    border: 1px solid #EFEAE3;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 22px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.maze-modal-stat-item span {
+    display: block;
+    color: var(--color-muted);
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.maze-modal-stat-item strong {
+    font-size: 18px;
+    color: var(--color-primary);
+}
+
+.maze-modal-close-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--color-primary);
+    color: var(--color-surface);
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.16s ease;
+}
+
+.maze-modal-close-btn:hover {
+    background: var(--color-primary-hover);
+}
+
+.maze-modal-close-btn:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+    .maze-game-wrapper {
+        padding: 16px;
+    }
+
+    .maze-dpad {
+        display: grid;
+    }
+}
+

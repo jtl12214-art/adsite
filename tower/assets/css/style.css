@@ -1,0 +1,231 @@
+/*
+Based on:
+https://codepen.io/ste-vg/pen/ppLQNW
+
+Original CodePen author: Steve Gardner (ste-vg)
+Public CodePen source used under the MIT License.
+Modified for PIX.
+*/
+
+/* Scoped to .tower-page */
+.tower-page {
+    width: 100%;
+}
+
+.tower-game-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #D0CBC7;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.tower-game-stage {
+    position: relative;
+    width: 100%;
+    height: 560px;
+    overflow: hidden;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    outline: none;
+}
+
+.tower-game-stage:focus-visible {
+    box-shadow: inset 0 0 0 3px var(--color-primary);
+}
+
+.tower-game-stage #game-canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tower-game-stage canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Score display */
+.tower-game-stage .tower-score {
+    position: absolute;
+    top: 24px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 700;
+    color: #333344;
+    transform: translateY(-120px) scale(1);
+    transition: transform 0.4s ease, opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+    line-height: 1;
+}
+
+/* Instructions */
+.tower-game-stage .tower-instructions {
+    position: absolute;
+    top: 96px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #4A4A5A;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 10;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.tower-game-stage .tower-instructions.hide {
+    opacity: 0 !important;
+}
+
+/* Game Ready Overlay */
+.tower-game-stage .tower-game-ready {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.tower-game-stage .tower-btn {
+    border: 2px solid #333344;
+    padding: 12px 28px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    color: #333344;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: auto;
+}
+
+.tower-game-stage .tower-btn:hover {
+    background: #333344;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tower-game-stage .tower-btn:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+/* Game Over Overlay */
+.tower-game-stage .tower-game-over {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(208, 203, 199, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.tower-game-stage .tower-game-over h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333344;
+    margin: 0;
+}
+
+.tower-game-stage .tower-game-over p {
+    font-size: 16px;
+    color: #555566;
+    margin: 0 0 10px 0;
+}
+
+/* State changes */
+.tower-game-stage.playing .tower-score,
+.tower-game-stage.resetting .tower-score {
+    transform: translateY(0) scale(1);
+}
+
+.tower-game-stage.playing .tower-instructions {
+    opacity: 1;
+}
+
+.tower-game-stage.ready .tower-game-ready .tower-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tower-game-stage.ended .tower-score {
+    transform: translateY(12px) scale(1.2);
+}
+
+.tower-game-stage.ended .tower-game-over {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.tower-game-stage.ended .tower-game-over .tower-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Error message fallback */
+.tower-error-notice {
+    display: none;
+    padding: 30px;
+    text-align: center;
+    color: #C55200;
+    background: #FFF1E6;
+    border-radius: 12px;
+    margin: 20px auto;
+    font-weight: 600;
+}
+
+@media (max-width: 640px) {
+    .tower-game-stage {
+        height: 420px;
+    }
+
+    .tower-game-stage .tower-score {
+        top: 16px;
+    }
+
+    .tower-game-stage .tower-instructions {
+        top: 72px;
+        font-size: 13px;
+    }
+
+    .tower-game-stage .tower-btn {
+        font-size: 16px;
+        padding: 10px 22px;
+    }
+}
+
+@media (max-width: 400px) {
+    .tower-game-stage {
+        height: 380px;
+    }
+}
+

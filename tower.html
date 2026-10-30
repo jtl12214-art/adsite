@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="타이밍에 맞춰 움직이는 블록을 정확하게 쌓아 최고 층수에 도전해보세요. 설치 없이 즐기는 무료 3D 웹 미니게임입니다.">
+    <title>블록 쌓기 | PIX 미니게임</title>
+    <link rel="canonical" href="https://adsite-eta.vercel.app/tower.html">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adsite-eta.vercel.app/tower.html">
+    <meta property="og:title" content="블록 쌓기 | PIX 미니게임">
+    <meta property="og:description" content="타이밍에 맞춰 움직이는 블록을 정확하게 쌓아 최고 층수에 도전해보세요.">
+    <meta property="og:site_name" content="PIX">
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="https://adsite-eta.vercel.app/tower.html">
+    <meta name="twitter:title" content="블록 쌓기 | PIX 미니게임">
+    <meta name="twitter:description" content="타이밍에 맞춰 움직이는 블록을 정확하게 쌓아 최고 층수에 도전해보세요.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/commons.css">
+    <link rel="stylesheet" href="assets/css/pix-header.css">
+    <link rel="stylesheet" href="assets/css/coupang-banner.css">
+    <link rel="stylesheet" href="assets/css/pix-games.css">
+    <link rel="stylesheet" href="tower/assets/css/style.css">
+    <script defer src="assets/js/header.js"></script>
+</head>
+
+<body>
+    <div data-component="header"></div>
+
+    <!-- 쿠팡 파트너스 배너 영역 -->
+    <aside class="coupang-banner-section" aria-label="쿠팡 파트너스 배너">
+        <div class="coupang-banner-wrap">
+            <div class="coupang-banner-pc">
+                <script src="https://ads-partners.coupang.com/g.js"></script>
+                <script>
+                    new PartnersCoupang.G({"id":1044374,"template":"carousel","trackingCode":"AF8651142","width":"680","height":"140","tsource":""});
+                </script>
+            </div>
+            <div class="coupang-banner-mo">
+                <script src="https://ads-partners.coupang.com/g.js"></script>
+                <script>
+                    new PartnersCoupang.G({"id":1044374,"template":"carousel","trackingCode":"AF8651142","width":"280","height":"140","tsource":""});
+                </script>
+            </div>
+        </div>
+        <div class="coupang-marquee-wrapper" aria-hidden="true">
+            <div class="coupang-marquee-track">
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+                <span class="coupang-marquee-item">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</span>
+            </div>
+        </div>
+        <p class="visually-hidden">이 사이트는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+    </aside>
+
+    <main class="container page-main tower-page">
+        <!-- Game Intro -->
+        <section class="pix-game-intro" aria-labelledby="game-title">
+            <a class="pix-game-back-link" href="index.html#tools">← PIX 이미지 도구로 돌아가기</a>
+            <div>
+                <span class="pix-games-eyebrow">PIX PLAY</span>
+                <h1 id="game-title">블록 쌓기</h1>
+                <p class="pix-game-desc">타이밍에 맞춰 움직이는 블록을 정확하게 쌓아보세요.</p>
+            </div>
+        </section>
+
+        <!-- Game Area -->
+        <section class="tower-game-wrapper" aria-label="블록 쌓기 게임 화면">
+            <div id="tower-stage" class="tower-game-stage" tabindex="0" role="region" aria-label="블록 쌓기 조작 화면">
+                <div id="game-canvas-container"></div>
+                <div id="tower-score" class="tower-score" aria-live="polite">0</div>
+                <div id="tower-instructions" class="tower-instructions">클릭, 터치 또는 스페이스바로 블록을 놓으세요.</div>
+
+                <div class="tower-game-ready">
+                    <button id="tower-start-btn" class="tower-btn" type="button">게임 시작</button>
+                </div>
+
+                <div class="tower-game-over">
+                    <h2>게임 오버</h2>
+                    <p>멋진 도전이었습니다!</p>
+                    <button id="tower-restart-btn" class="tower-btn" type="button">다시 도전하기</button>
+                </div>
+            </div>
+        </section>
+        <div id="tower-error" class="tower-error-notice" role="alert"></div>
+
+        <!-- Guide / Controls Section -->
+        <section class="pix-game-guide-section" aria-labelledby="controls-title">
+            <div class="pix-game-guide-card">
+                <h2 id="controls-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="17" cy="10" r="1"/><circle cx="15" cy="14" r="1"/></svg>
+                    조작 방법 &amp; 게임 안내
+                </h2>
+                <ul class="pix-game-guide-list">
+                    <li><strong>PC 조작:</strong> 스페이스바(Space) 키 또는 게임 화면 마우스 클릭으로 이동 중인 블록을 배치합니다.</li>
+                    <li><strong>모바일 조작:</strong> 게임 화면을 손가락으로 가볍게 터치(Tap)하여 블록을 놓습니다.</li>
+                    <li><strong>보너스 팁:</strong> 아래 블록과 오차 없이 완벽하게 일치하면 보너스 효과와 함께 블록 크기가 줄어들지 않습니다.</li>
+                    <li><strong>목표:</strong> 탑이 끊어지지 않도록 최대한 많은 층수를 쌓아 최고 기록을 달성해보세요!</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Other Mini-Games -->
+        <section class="pix-other-games-section" aria-labelledby="other-games-title">
+            <div class="pix-other-games-header">
+                <h2 id="other-games-title">다른 미니게임</h2>
+                <p>다른 재미있는 미니게임도 즐겨보세요.</p>
+            </div>
+            <div class="pix-other-games-grid">
+                <a class="pix-game-card" href="dino.html">
+                    <div class="pix-game-card-preview" aria-hidden="true">
+                        <svg width="140" height="90" viewBox="0 0 140 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="#535353">
+                                <rect x="36" y="22" width="22" height="18" rx="1"/>
+                                <rect x="52" y="24" width="4" height="4" fill="#FAF7F2"/>
+                                <rect x="30" y="32" width="18" height="22"/>
+                                <rect x="22" y="40" width="10" height="12"/>
+                                <rect x="18" y="44" width="6" height="6"/>
+                                <rect x="42" y="44" width="8" height="4"/>
+                                <rect x="32" y="54" width="4" height="10"/>
+                                <rect x="30" y="62" width="8" height="3"/>
+                                <rect x="40" y="52" width="4" height="8"/>
+                                <rect x="42" y="58" width="6" height="3"/>
+                                <rect x="96" y="44" width="8" height="26" rx="2" fill="#388E3C"/>
+                                <rect x="90" y="50" width="6" height="12" rx="2" fill="#388E3C"/>
+                                <rect x="88" y="50" width="8" height="4" fill="#388E3C"/>
+                                <rect x="104" y="52" width="6" height="10" rx="2" fill="#388E3C"/>
+                                <rect x="104" y="58" width="8" height="4" fill="#388E3C"/>
+                                <rect x="12" y="70" width="116" height="2" fill="#9E9E9E"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="pix-game-card-badge">점프 · 기록 도전</span>
+                    <h3>공룡 점프</h3>
+                    <p class="pix-game-card-desc">달리는 공룡을 점프시켜 장애물을 피해 최고 기록에 도전하세요.</p>
+                    <span class="pix-game-card-cta">게임 시작 →</span>
+                </a>
+
+                <a class="pix-game-card" href="maze.html">
+                    <div class="pix-game-card-preview" aria-hidden="true">
+                        <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g stroke="#C55200" stroke-width="2.5" stroke-linecap="round">
+                                <path d="M25 15 H95 V75 H25 Z" fill="#FFFDFB"/>
+                                <path d="M42 15 V35 H60"/>
+                                <path d="M78 15 V45"/>
+                                <path d="M25 55 H52 V75"/>
+                                <path d="M60 55 H78 V75"/>
+                                <path d="M42 45 H68"/>
+                            </g>
+                            <circle cx="34" cy="25" r="4.5" fill="#FF7A0B"/>
+                            <g transform="translate(82, 58)">
+                                <rect x="0" y="0" width="8" height="8" fill="#2D2A26"/>
+                                <rect x="4" y="0" width="4" height="4" fill="#FFFFFF"/>
+                                <rect x="0" y="4" width="4" height="4" fill="#FFFFFF"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="pix-game-card-badge">방향키 · 스와이프</span>
+                    <h3>미로 찾기</h3>
+                    <p class="pix-game-card-desc">랜덤으로 생성되는 미로에서 길을 찾아 출구까지 이동해보세요.</p>
+                    <span class="pix-game-card-cta">게임 시작 →</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <div data-component="footer"></div>
+
+    <!-- Scripts -->
+    <script src="tower/assets/vendor/three.min.js"></script>
+    <script src="tower/assets/vendor/TweenMax.min.js"></script>
+    <script src="tower/assets/js/main.js"></script>
+</body>
+
+</html>
+
