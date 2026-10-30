@@ -464,6 +464,28 @@
         },
 
         /**
+         * Start the game or trigger a jump (unified input helper).
+         */
+        startOrJump: function () {
+            if (this.crashed) {
+                this.restart();
+                return;
+            }
+            if (!this.playing) {
+                this.loadSounds();
+                this.playing = true;
+                this.update();
+                if (window.errorPageController) {
+                    errorPageController.trackEasterEgg();
+                }
+            }
+            if (!this.tRex.jumping && !this.tRex.ducking) {
+                this.playSound(this.soundFx.BUTTON_PRESS);
+                this.tRex.startJump(this.currentSpeed);
+            }
+        },
+
+        /**
          * Play the game intro.
          * Canvas container width expands out to the full width.
          */
@@ -637,20 +659,9 @@
          * Bind relevant key / mouse / touch listeners.
          */
         startListening: function () {
-            // Keys.
+            // Keys only on document. Mouse and touch are scoped to stage.
             document.addEventListener(Runner.events.KEYDOWN, this);
             document.addEventListener(Runner.events.KEYUP, this);
-
-            if (IS_MOBILE) {
-                // Mobile only touch devices.
-                this.touchController.addEventListener(Runner.events.TOUCHSTART, this);
-                this.touchController.addEventListener(Runner.events.TOUCHEND, this);
-                this.containerEl.addEventListener(Runner.events.TOUCHSTART, this);
-            } else {
-                // Mouse.
-                document.addEventListener(Runner.events.MOUSEDOWN, this);
-                document.addEventListener(Runner.events.MOUSEUP, this);
-            }
         },
 
         /**
@@ -659,15 +670,6 @@
         stopListening: function () {
             document.removeEventListener(Runner.events.KEYDOWN, this);
             document.removeEventListener(Runner.events.KEYUP, this);
-
-            if (IS_MOBILE) {
-                this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
-                this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
-                this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
-            } else {
-                document.removeEventListener(Runner.events.MOUSEDOWN, this);
-                document.removeEventListener(Runner.events.MOUSEUP, this);
-            }
         },
 
         /**
@@ -786,10 +788,6 @@
 
             this.stop();
             this.crashed = true;
-            var stageEl = document.getElementById('dino-stage');
-            if (stageEl) stageEl.classList.add('crashed');
-            var promptEl = document.getElementById('dino-prompt');
-            if (promptEl) promptEl.textContent = '게임 오버! 다시 도전하려면 화면을 누르거나 아래 버튼을 클릭하세요.';
             this.distanceMeter.acheivement = false;
 
             this.tRex.update(100, Trex.status.CRASHED);
@@ -811,6 +809,16 @@
 
             // Reset the time clock.
             this.time = getTimeStamp();
+
+            // Update PIX UI elements
+            var stageEl = document.getElementById('dino-stage');
+            if (stageEl) {
+                stageEl.classList.add('crashed');
+            }
+            var promptEl = document.getElementById('dino-prompt');
+            if (promptEl) {
+                promptEl.textContent = '게임 오버! 다시 도전하려면 화면을 누르거나 아래 버튼을 클릭하세요.';
+            }
         },
 
         stop: function () {
@@ -831,52 +839,58 @@
         },
 
         restart: function () {
-            if (!this.raqId) {
-                this.playCount++;
-                this.runningTime = 0;
-                this.playing = true;
-                this.crashed = false;
-                this.distanceRan = 0;
-                this.setSpeed(this.config.SPEED);
-                this.time = getTimeStamp();
-                this.containerEl.classList.remove(Runner.classes.CRASHED);
-                this.clearCanvas();
-                this.distanceMeter.reset(this.highestScore);
-                this.horizon.reset();
-                this.tRex.reset();
-                this.playSound(this.soundFx.BUTTON_PRESS);
-                this.invert(true);
-                this.update();
+            if (this.raqId) {
+                cancelAnimationFrame(this.raqId);
+                this.raqId = 0;
             }
+            this.playCount++;
+            this.runningTime = 0;
+            this.playing = true;
+            this.crashed = false;
+            this.paused = false;
+            this.activated = true;
+            this.distanceRan = 0;
+            this.setSpeed(this.config.SPEED);
+            this.time = getTimeStamp();
+            this.containerEl.classList.remove(Runner.classes.CRASHED);
+            this.clearCanvas();
+            this.distanceMeter.reset(this.highestScore);
+            this.horizon.reset();
+            this.tRex.reset();
+            this.playSound(this.soundFx.BUTTON_PRESS);
+            this.invert(true);
+
+            // Update PIX UI elements
+            var stageEl = document.getElementById('dino-stage');
+            if (stageEl) {
+                stageEl.classList.remove('crashed');
+            }
+            var promptEl = document.getElementById('dino-prompt');
+            if (promptEl) {
+                promptEl.textContent = '스페이스바, ↑ 키 또는 화면을 눌러 점프하세요.';
+            }
+
+            this.update();
         },
         
         /**
          * Hides offline messaging for a fullscreen game only experience.
          */
         setArcadeMode() {
-            document.body.classList.add(Runner.classes.ARCADE_MODE);
-            this.setArcadeModeContainerScale();
+            // In PIX Embedded Mode, do not scale or modify body
+            if (this.containerEl) {
+                this.containerEl.style.transform = '';
+            }
         },
 
         /**
          * Sets the scaling for arcade mode.
          */
         setArcadeModeContainerScale() {
-            const windowHeight = window.innerHeight;
-            const scaleHeight = windowHeight / this.dimensions.HEIGHT;
-            const scaleWidth = window.innerWidth / this.dimensions.WIDTH;
-            const scale = Math.max(1, Math.min(scaleHeight, scaleWidth));
-            const scaledCanvasHeight = this.dimensions.HEIGHT * scale;
-            // Positions the game container at 10% of the available vertical window
-            // height minus the game container height.
-            const translateY = Math.ceil(Math.max(0, (windowHeight - scaledCanvasHeight -
-                                                      Runner.config.ARCADE_MODE_INITIAL_TOP_POSITION) *
-                                                  Runner.config.ARCADE_MODE_TOP_POSITION_PERCENT)) *
-                  window.devicePixelRatio;
-
-            const cssScale = scale;
-            this.containerEl.style.transform =
-                'scale(' + cssScale + ') translateY(' + translateY + 'px)';
+            // In PIX Embedded Mode, keep container unscaled
+            if (this.containerEl) {
+                this.containerEl.style.transform = '';
+            }
         },
         
         /**
@@ -910,13 +924,13 @@
          * @param {boolean} Whether to reset colors.
          */
         invert: function (reset) {
+            var target = this.outerContainerEl || document.getElementById('dino-stage');
             if (reset) {
-                document.body.classList.toggle(Runner.classes.INVERTED, false);
+                if (target) target.classList.toggle(Runner.classes.INVERTED, false);
                 this.invertTimer = 0;
                 this.inverted = false;
             } else {
-                this.inverted = document.body.classList.toggle(Runner.classes.INVERTED,
-                    this.invertTrigger);
+                this.inverted = target ? target.classList.toggle(Runner.classes.INVERTED, this.invertTrigger) : false;
             }
         }
     };
@@ -2760,40 +2774,20 @@ function onDocumentLoad() {
     if (restartBtn) {
         restartBtn.addEventListener('click', function (e) {
             e.stopPropagation();
-            if (runner.crashed) {
-                runner.restart();
-            }
+            runner.restart();
         });
     }
 
     if (stageEl) {
         stageEl.addEventListener('click', function (e) {
             if (e.target.closest('#dino-restart-btn')) return;
-            if (!runner.activated) {
-                runner.loadSounds();
-                runner.activated = true;
-                runner.startGame();
-                runner.tRex.startJump(runner.currentSpeed);
-            } else if (runner.crashed) {
-                runner.restart();
-            } else {
-                runner.tRex.startJump(runner.currentSpeed);
-            }
+            runner.startOrJump();
         });
 
         stageEl.addEventListener('touchstart', function (e) {
             if (e.target.closest('#dino-restart-btn')) return;
             e.preventDefault();
-            if (!runner.activated) {
-                runner.loadSounds();
-                runner.activated = true;
-                runner.startGame();
-                runner.tRex.startJump(runner.currentSpeed);
-            } else if (runner.crashed) {
-                runner.restart();
-            } else {
-                runner.tRex.startJump(runner.currentSpeed);
-            }
+            runner.startOrJump();
         }, { passive: false });
     }
 }

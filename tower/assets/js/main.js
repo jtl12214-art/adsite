@@ -41,10 +41,14 @@ Modified for PIX:
             const width = this.container.clientWidth || 800;
             const height = this.container.clientHeight || 560;
 
-            this.renderer = new THREE.WebGLRenderer({
-                antialias: true,
-                alpha: false
-            });
+            try {
+                this.renderer = new THREE.WebGLRenderer({
+                    antialias: true,
+                    alpha: false
+                });
+            } catch (err) {
+                throw new Error('WebGL is not supported or failed to initialize');
+            }
             this.renderer.setSize(width, height);
             this.renderer.setClearColor('#D0CBC7', 1);
             this.container.appendChild(this.renderer.domElement);
@@ -408,7 +412,16 @@ Modified for PIX:
 
     // Initialize game
     window.addEventListener('DOMContentLoaded', () => {
-        new Game();
+        try {
+            window.game = new Game();
+        } catch (error) {
+            console.error('Failed to initialize Tower Blocks (WebGL error):', error);
+            const errorEl = document.getElementById('tower-error');
+            if (errorEl) {
+                errorEl.style.display = 'block';
+                errorEl.textContent = '이 브라우저에서는 3D 게임을 실행할 수 없습니다. WebGL을 지원하는 브라우저에서 다시 시도해주세요.';
+            }
+        }
     });
 })();
 

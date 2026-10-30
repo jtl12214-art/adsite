@@ -114,10 +114,11 @@ Modified for PIX.
     font-weight: 700;
     border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
     transform: translateY(-20px);
-    pointer-events: auto;
 }
 
 .tower-game-stage .tower-btn:hover {
@@ -172,8 +173,11 @@ Modified for PIX.
     opacity: 1;
 }
 
+/* In READY state: only Start button is visible and clickable */
 .tower-game-stage.ready .tower-game-ready .tower-btn {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     transform: translateY(0);
 }
 
@@ -186,8 +190,11 @@ Modified for PIX.
     pointer-events: auto;
 }
 
+/* In ENDED state: only Restart button is visible and clickable */
 .tower-game-stage.ended .tower-game-over .tower-btn {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     transform: translateY(0);
 }
 
