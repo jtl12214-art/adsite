@@ -81,11 +81,22 @@ function initializeHeader(headerContainer) {
         }
     });
 
-    pixDesktopMediaQuery.addEventListener("change", function (event) {
+    const handleDesktopBreakpointChange = function (event) {
         if (event.matches) {
             setPixMobileMenuOpen(false);
         }
-    });
+    };
+
+    if (typeof pixDesktopMediaQuery.addEventListener === "function") {
+        pixDesktopMediaQuery.addEventListener(
+            "change",
+            handleDesktopBreakpointChange
+        );
+    } else if (typeof pixDesktopMediaQuery.addListener === "function") {
+        pixDesktopMediaQuery.addListener(
+            handleDesktopBreakpointChange
+        );
+    }
 
     pixHeader.addEventListener("click", function (event) {
         if (event.target instanceof Element && event.target.closest('a[href="#"]')) {
@@ -99,12 +110,20 @@ async function initializePageComponents() {
         throw new Error("The shared component script could not be identified.");
     }
 
-    const [headerContainer] = await Promise.all([
+    const [headerResult, footerResult] = await Promise.allSettled([
         loadComponent("[data-component='header']", "header.html"),
         loadComponent("[data-component='footer']", "footer.html")
     ]);
 
-    initializeHeader(headerContainer);
+    if (headerResult.status === "fulfilled") {
+        initializeHeader(headerResult.value);
+    } else {
+        console.error("Failed to load header component.", headerResult.reason);
+    }
+
+    if (footerResult.status === "rejected") {
+        console.error("Failed to load footer component.", footerResult.reason);
+    }
 }
 
 initializePageComponents().catch(function (error) {

@@ -737,6 +737,13 @@
          * @param {Event} e
          */
         onKeyUp: function (e) {
+            var interactiveTarget = e.target instanceof Element &&
+                Boolean(e.target.closest('input, textarea, select, button, a, [contenteditable="true"]'));
+
+            if (interactiveTarget) {
+                return;
+            }
+
             var keyCode = String(e.keyCode);
             var isjumpKey = Runner.keycodes.JUMP[keyCode] ||
                 e.type == Runner.events.TOUCHEND ||
