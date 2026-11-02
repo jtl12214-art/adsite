@@ -28,8 +28,18 @@ function initializeHeader(headerContainer) {
     }
 
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
+    const gamePages = new Set([
+        "tower.html",
+        "dino.html",
+        "maze.html"
+    ]);
+    const isGamePage = gamePages.has(currentPage);
 
     pixHeader.querySelectorAll(".pix-nav-link").forEach(function (link) {
+        if (link.classList.contains("pix-mobile-play-link")) {
+            return;
+        }
+
         const linkPage = new URL(link.getAttribute("href"), window.location.href).pathname.split("/").pop();
         const isCurrentPage = linkPage === currentPage;
 
@@ -39,6 +49,16 @@ function initializeHeader(headerContainer) {
             link.setAttribute("aria-current", "page");
         } else {
             link.removeAttribute("aria-current");
+        }
+    });
+
+    const playShortcuts = pixHeader.querySelectorAll(".pix-play-shortcut, .pix-mobile-play-link");
+    playShortcuts.forEach(function (btn) {
+        btn.classList.toggle("is-active", isGamePage);
+        if (isGamePage) {
+            btn.setAttribute("aria-current", "page");
+        } else {
+            btn.removeAttribute("aria-current");
         }
     });
 

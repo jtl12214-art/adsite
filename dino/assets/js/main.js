@@ -682,8 +682,22 @@
                 e.preventDefault();
             }
 
+            var interactiveTarget = e.target instanceof Element &&
+                Boolean(e.target.closest('input, textarea, select, button, a, [contenteditable="true"]'));
+
+            if (interactiveTarget) {
+                return;
+            }
+
+            var isJumpKey = Boolean(Runner.keycodes.JUMP[e.keyCode]);
+            var isDuckKey = Boolean(Runner.keycodes.DUCK[e.keyCode]);
+
+            if (isJumpKey || isDuckKey) {
+                e.preventDefault();
+            }
+
             if (e.target != this.detailsButton) {
-                if (!this.crashed && (Runner.keycodes.JUMP[e.keyCode] ||
+                if (!this.crashed && (isJumpKey ||
                     e.type == Runner.events.TOUCHSTART)) {
                     if (!this.playing) {
                         this.loadSounds();
@@ -706,8 +720,7 @@
                 }
             }
 
-            if (this.playing && !this.crashed && Runner.keycodes.DUCK[e.keyCode]) {
-                e.preventDefault();
+            if (this.playing && !this.crashed && isDuckKey) {
                 if (this.tRex.jumping) {
                     // Speed drop, activated only when jump key is not pressed.
                     this.tRex.setSpeedDrop();
